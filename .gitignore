@@ -1,0 +1,6 @@
+Win32/
+*.tlog
+Debug/
+obj/
+bin/
+
