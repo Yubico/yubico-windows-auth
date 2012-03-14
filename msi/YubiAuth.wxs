@@ -1,0 +1,66 @@
+<?xml version='1.0'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Product Id='*' Name='YubiAuth' Language='1033' 
+    Version='1.0.0.1' Manufacturer='Yubico AB' UpgradeCode="26135f08-abb2-4d54-9e08-25cbc88feb76">
+    <Package Description='YubiKey challenge-response authentication for windows'
+      Comments='POC of yubico challenge-response authentication'
+      Manufacturer='Yubico AB' InstallerVersion='200' Compressed='yes' />
+
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+
+    <Upgrade Id="26135f08-abb2-4d54-9e08-25cbc88feb76">
+      <UpgradeVersion
+        Minimum="1.0.0.0" Maximum="99.0.0.0"
+        Property="PREVIOUSVERSIONSINSTALLED"
+        IncludeMinimum="yes" IncludeMaximum="yes" />
+    </Upgrade>
+
+    <InstallExecuteSequence>
+      <RemoveExistingProducts Before="InstallInitialize" />
+    </InstallExecuteSequence>
+
+    <Media Id='1' Cabinet="YubiAuth.cab" EmbedCab="yes"/>
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="YubicoFolder" Name="Yubico">
+          <Directory Id="INSTALLLOCATION" Name="YubiSettings">
+            <Component Id='YubiSettings' Guid='597d2a27-aa11-4de0-96d7-aaa44d8045b9'>
+              <File Id="YubiSettings.exe" DiskId="1" Source=".\YubiSettings.exe"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="SystemFolder">
+        <Component Id="msvsubauth" Guid="c39d0350-c143-4e80-8b60-3f4864a07535">
+          <File Id="msvsubauth.dll" DiskId="1"/>
+        </Component>
+        <Component Id="credential_provider" Guid="229f2b26-505e-48a5-946c-27a7291d8a81">
+          <File Id="SampleWrapExistingCredentialProvider.dll" DiskId="1"/>
+        </Component>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="YubicoApplicationProgramsFolder" Name="Yubico">
+          <Directory Id="ApplicationProgramsFolder" Name="YubiSettings">
+            <Component Id="ApplicationShortcut" Guid="ea9b2b0e-1bd7-41c4-81cc-3f950a2f7b57">
+              <Shortcut Id="ApplicationStartMenuShortcut" 
+                Name="YubiSettings" 
+                Description="Configure YubiKey authentication"
+                Target="[INSTALLLOCATION]YubiSettings.exe"
+                WorkingDirectory="INSTALLLOCATION"/>
+              <RemoveFolder Id="YubicoApplicationProgramsFolder" On="uninstall"/>
+              <RegistryValue Root="HKCU" Key="Software\Yubico\YubiSettings" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id='YubiSettings' Title='YubiSettings' Level='1'>
+      <ComponentRef Id='YubiSettings' />
+      <ComponentRef Id='msvsubauth' />
+      <ComponentRef Id='credential_provider' />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+  </Product>
+</Wix>
