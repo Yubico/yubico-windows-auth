@@ -26,13 +26,23 @@ namespace YubiSettings
         private static String GUID = "{0f33b914-4f18-4824-8880-29bbe2e05179}";
         private static int DEFAULT_ITERATIONS = 50000;
 
-        YubiClient api = new YubiClient();
+        YubiClient api;
 
         delegate void setEnabledCallback(bool enabled);
 
         public YubiSettings()
         {
             InitializeComponent();
+
+            try
+            {
+                api = new YubiClient();
+            }
+            catch
+            {
+                MessageBox.Show("Could not instantiate Yubico com api, is it installed?", "Yubico API failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
 
             RegistryKey key = Registry.LocalMachine.OpenSubKey(MSV1_0);
             Object value = key.GetValue("Auth0");
