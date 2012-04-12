@@ -74,6 +74,12 @@ namespace YubiSettings
 
             testOutputLabel.Text = "";
 
+            WqlObjectQuery query = new WqlObjectQuery("Select Name from WIN32_UserAccount where Disabled = false");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            foreach(ManagementBaseObject user in searcher.Get()) {
+                userSelect.Items.Add(user.GetPropertyValue("Name"));
+            }
+
             api.deviceInserted += new _IYubiClientEvents_deviceInsertedEventHandler(yubiKey_Inserted);
             api.deviceRemoved += new _IYubiClientEvents_deviceRemovedEventHandler(yubiKey_Removed);
         }
@@ -119,47 +125,21 @@ namespace YubiSettings
             }
         }
 
-        private void searchButton_Click(object sender, EventArgs e)
+        private void userSelected(object sender, EventArgs e)
         {
-            String username = usernameInput.Text;
-            if (username == null || username == "")
+            String username = userSelect.SelectedItem.ToString();
+            RegistryKey userKey = Registry.LocalMachine.CreateSubKey(USERS + username);
+            object enabled = userKey.GetValue("enabled");
+            if (enabled == null || (int)enabled != 1)
             {
-                MessageBox.Show("username must be entered.",
-                    "No username entered",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-            WqlObjectQuery query = new WqlObjectQuery("Select * from WIN32_UserAccount where Name = '" + username + "'");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-            if (searcher.Get().Count != 1)
-            {
-                MessageBox.Show("no user with that name found",
-                    "No user found",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                enableCheckBox.Enabled = false;
-                confButton.Enabled = false;
-                testButton.Enabled = false;
-                api.enableNotifications = ycNOTIFICATION_MODE.ycNOTIFICATION_OFF;
-                return;
+                enableCheckBox.Checked = false;
             }
             else
             {
-                RegistryKey userKey = Registry.LocalMachine.CreateSubKey(USERS + username);
-                object enabled = userKey.GetValue("enabled");
-                if (enabled == null || (int)enabled != 1)
-                {
-                    enableCheckBox.Checked = false;
-                }
-                else
-                {
-                    enableCheckBox.Checked = true;
-                }
-                enableCheckBox.Enabled = true;
-                api.enableNotifications = ycNOTIFICATION_MODE.ycNOTIFICATION_ON;
+                enableCheckBox.Checked = true;
             }
+            enableCheckBox.Enabled = true;
+            api.enableNotifications = ycNOTIFICATION_MODE.ycNOTIFICATION_ON;
         }
 
         private void yubiKey_Inserted()
@@ -174,17 +154,10 @@ namespace YubiSettings
             setTestButton(false);
         }
 
-        private void username_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                searchButton_Click(sender, e);
-            }
-        }
 
         private void toggleEnabled(object sender, EventArgs e)
         {
-            String username = usernameInput.Text;
+            String username = userSelect.SelectedItem.ToString();
             RegistryKey userKey = Registry.LocalMachine.CreateSubKey(USERS + username);
             if (enableCheckBox.Checked == true)
             {
@@ -198,7 +171,7 @@ namespace YubiSettings
 
         private void configureButton_Click(object sender, EventArgs e)
         {
-            String username = usernameInput.Text;
+            String username = userSelect.SelectedItem.ToString();
             byte[] salt = ConfigureNewSalt(username);
             if (ConfigureNewChallengeAndResponse(username, salt))
             {
@@ -272,7 +245,7 @@ namespace YubiSettings
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            String username = usernameInput.Text;
+            String username = userSelect.SelectedItem.ToString();
             RegistryKey userKey = Registry.LocalMachine.CreateSubKey(USERS + username);
             byte[] challenge = (byte[])userKey.GetValue("nextChallenge");
             byte[] salt = (byte[])userKey.GetValue("salt");
@@ -384,11 +357,6 @@ namespace YubiSettings
             {
                 setIterations_Click(sender, e);
             }
-        }
-
-        private void YubiSettings_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

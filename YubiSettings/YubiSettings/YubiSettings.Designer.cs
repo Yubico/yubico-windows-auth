@@ -29,19 +29,17 @@
         private void InitializeComponent()
         {
             this.toggleButton = new System.Windows.Forms.Button();
-            this.usernameInput = new System.Windows.Forms.TextBox();
             this.testButton = new System.Windows.Forms.Button();
             this.toggleLabel = new System.Windows.Forms.Label();
-            this.userLabel = new System.Windows.Forms.Label();
             this.testLabel = new System.Windows.Forms.Label();
             this.enableCheckBox = new System.Windows.Forms.CheckBox();
             this.confButton = new System.Windows.Forms.Button();
             this.testOutputLabel = new System.Windows.Forms.Label();
             this.safemodeCheckBox = new System.Windows.Forms.CheckBox();
-            this.searchButton = new System.Windows.Forms.Button();
             this.iterationsInput = new System.Windows.Forms.TextBox();
             this.setIterationsButton = new System.Windows.Forms.Button();
             this.iterationsLabel = new System.Windows.Forms.Label();
+            this.userSelect = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // toggleButton
@@ -53,14 +51,6 @@
             this.toggleButton.Text = "toggle";
             this.toggleButton.UseVisualStyleBackColor = true;
             this.toggleButton.Click += new System.EventHandler(this.toggleButton_Click);
-            // 
-            // usernameInput
-            // 
-            this.usernameInput.Location = new System.Drawing.Point(12, 154);
-            this.usernameInput.Name = "usernameInput";
-            this.usernameInput.Size = new System.Drawing.Size(152, 20);
-            this.usernameInput.TabIndex = 1;
-            this.usernameInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.username_KeyDown);
             // 
             // testButton
             // 
@@ -81,15 +71,6 @@
             this.toggleLabel.Size = new System.Drawing.Size(35, 13);
             this.toggleLabel.TabIndex = 3;
             this.toggleLabel.Text = "label1";
-            // 
-            // userLabel
-            // 
-            this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(9, 138);
-            this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(53, 13);
-            this.userLabel.TabIndex = 4;
-            this.userLabel.Text = "username";
             // 
             // testLabel
             // 
@@ -143,16 +124,6 @@
             this.safemodeCheckBox.UseVisualStyleBackColor = true;
             this.safemodeCheckBox.Click += new System.EventHandler(this.toggleSafeMode);
             // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(170, 152);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(47, 26);
-            this.searchButton.TabIndex = 10;
-            this.searchButton.Text = "search";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
-            // 
             // iterationsInput
             // 
             this.iterationsInput.Location = new System.Drawing.Point(12, 103);
@@ -163,7 +134,7 @@
             // 
             // setIterationsButton
             // 
-            this.setIterationsButton.Location = new System.Drawing.Point(170, 101);
+            this.setIterationsButton.Location = new System.Drawing.Point(127, 101);
             this.setIterationsButton.Name = "setIterationsButton";
             this.setIterationsButton.Size = new System.Drawing.Size(31, 22);
             this.setIterationsButton.TabIndex = 12;
@@ -180,28 +151,36 @@
             this.iterationsLabel.TabIndex = 13;
             this.iterationsLabel.Text = "Hash Iterations";
             // 
+            // userSelect
+            // 
+            this.userSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.userSelect.FormattingEnabled = true;
+            this.userSelect.Location = new System.Drawing.Point(12, 153);
+            this.userSelect.Name = "userSelect";
+            this.userSelect.Size = new System.Drawing.Size(100, 21);
+            this.userSelect.TabIndex = 14;
+            this.userSelect.Tag = "";
+            this.userSelect.SelectedIndexChanged += new System.EventHandler(this.userSelected);
+            // 
             // YubiSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(267, 295);
+            this.ClientSize = new System.Drawing.Size(291, 320);
+            this.Controls.Add(this.userSelect);
             this.Controls.Add(this.iterationsLabel);
             this.Controls.Add(this.setIterationsButton);
             this.Controls.Add(this.iterationsInput);
-            this.Controls.Add(this.searchButton);
             this.Controls.Add(this.safemodeCheckBox);
             this.Controls.Add(this.testOutputLabel);
             this.Controls.Add(this.confButton);
             this.Controls.Add(this.enableCheckBox);
             this.Controls.Add(this.testLabel);
-            this.Controls.Add(this.userLabel);
             this.Controls.Add(this.toggleLabel);
             this.Controls.Add(this.testButton);
-            this.Controls.Add(this.usernameInput);
             this.Controls.Add(this.toggleButton);
             this.Name = "YubiSettings";
             this.Text = "YubiKey Logon Administration";
-            this.Load += new System.EventHandler(this.YubiSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,19 +189,17 @@
         #endregion
 
         private System.Windows.Forms.Button toggleButton;
-        private System.Windows.Forms.TextBox usernameInput;
         private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.Label toggleLabel;
-        private System.Windows.Forms.Label userLabel;
         private System.Windows.Forms.Label testLabel;
         private System.Windows.Forms.CheckBox enableCheckBox;
         private System.Windows.Forms.Button confButton;
         private System.Windows.Forms.Label testOutputLabel;
         private System.Windows.Forms.CheckBox safemodeCheckBox;
-        private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox iterationsInput;
         private System.Windows.Forms.Button setIterationsButton;
         private System.Windows.Forms.Label iterationsLabel;
+        private System.Windows.Forms.ComboBox userSelect;
     }
 }
 
