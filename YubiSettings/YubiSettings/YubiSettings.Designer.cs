@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YubiSettings));
             this.toggleButton = new System.Windows.Forms.Button();
             this.testButton = new System.Windows.Forms.Button();
             this.toggleLabel = new System.Windows.Forms.Label();
@@ -179,6 +180,7 @@
             this.Controls.Add(this.toggleLabel);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.toggleButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "YubiSettings";
             this.Text = "YubiKey Logon Administration";
             this.ResumeLayout(false);
