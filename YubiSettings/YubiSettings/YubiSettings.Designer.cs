@@ -200,7 +200,7 @@
             this.Controls.Add(this.usernameInput);
             this.Controls.Add(this.toggleButton);
             this.Name = "YubiSettings";
-            this.Text = "YubiSettings";
+            this.Text = "YubiKey Logon Administration";
             this.Load += new System.EventHandler(this.YubiSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
