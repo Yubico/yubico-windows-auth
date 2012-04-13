@@ -1,9 +1,9 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
-  <Product Id='*' Name='YubiAuth' Language='1033' 
-    Version='1.0.0.1' Manufacturer='Yubico AB' UpgradeCode="26135f08-abb2-4d54-9e08-25cbc88feb76">
+  <Product Id='*' Name='YubiKey Logon' Language='1033' 
+    Version='1.0.0.2' Manufacturer='Yubico AB' UpgradeCode="26135f08-abb2-4d54-9e08-25cbc88feb76">
     <Package Description='YubiKey challenge-response authentication for windows'
-      Comments='POC of yubico challenge-response authentication'
+      Comments='YubiKey challenge-response authentication for windows'
       Manufacturer='Yubico AB' InstallerVersion='200' Compressed='yes' />
 
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
@@ -19,12 +19,12 @@
       <RemoveExistingProducts Before="InstallInitialize" />
     </InstallExecuteSequence>
 
-    <Media Id='1' Cabinet="YubiAuth.cab" EmbedCab="yes"/>
+    <Media Id='1' Cabinet="YubiKeyLogon.cab" EmbedCab="yes"/>
 
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id="ProgramFilesFolder">
         <Directory Id="YubicoFolder" Name="Yubico">
-          <Directory Id="INSTALLLOCATION" Name="YubiSettings">
+          <Directory Id="INSTALLLOCATION" Name="YubiKey Logon">
             <Component Id='YubiSettings' Guid='597d2a27-aa11-4de0-96d7-aaa44d8045b9'>
               <File Id="YubiSettings.exe" DiskId="1" Source=".\YubiSettings.exe"/>
             </Component>
@@ -41,15 +41,15 @@
       </Directory>
       <Directory Id="ProgramMenuFolder">
         <Directory Id="YubicoApplicationProgramsFolder" Name="Yubico">
-          <Directory Id="ApplicationProgramsFolder" Name="YubiSettings">
+          <Directory Id="ApplicationProgramsFolder" Name="YubiKey Logon">
             <Component Id="ApplicationShortcut" Guid="ea9b2b0e-1bd7-41c4-81cc-3f950a2f7b57">
               <Shortcut Id="ApplicationStartMenuShortcut" 
-                Name="YubiSettings" 
-                Description="Configure YubiKey authentication"
+                Name="YubiKey Logon Administration" 
+                Description="Administrate YubiKey authentication"
                 Target="[INSTALLLOCATION]YubiSettings.exe"
                 WorkingDirectory="INSTALLLOCATION"/>
               <RemoveFolder Id="YubicoApplicationProgramsFolder" On="uninstall"/>
-              <RegistryValue Root="HKCU" Key="Software\Yubico\YubiSettings" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+              <RegistryValue Root="HKLM" Key="Software\Yubico\auth" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
             </Component>
           </Directory>
         </Directory>
