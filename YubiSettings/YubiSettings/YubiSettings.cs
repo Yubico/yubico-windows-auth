@@ -68,9 +68,8 @@ namespace YubiSettings
             object iterations = settings.GetValue("hashIterations");
             if (iterations == null)
             {
-                iterations = DEFAULT_ITERATIONS;
+                settings.SetValue("hashIterations", DEFAULT_ITERATIONS);
             }
-            iterationsInput.Text = iterations.ToString();
 
             testOutputLabel.Text = "";
 
@@ -308,54 +307,6 @@ namespace YubiSettings
             else
             {
                 this.testButton.Enabled = enabled;
-            }
-        }
-
-        private void setIterations_Click(object sender, EventArgs e)
-        {
-            if (iterationsInput.Text == null || iterationsInput.Text == "")
-            {
-                MessageBox.Show("You must enter a number of iterations",
-                    "No iterations entered",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            else
-            {
-                try
-                {
-                    int iterations = Convert.ToInt32(iterationsInput.Text);
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("You must enter a number",
-                        "Not a number",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
-                }
-                catch (OverflowException)
-                {
-                    MessageBox.Show("To large number entered",
-                        "To large",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
-                }
-                RegistryKey settings = Registry.LocalMachine.CreateSubKey(SETTINGS);
-                settings.SetValue("hashIterations", iterationsInput.Text, RegistryValueKind.DWord);
-                MessageBox.Show("New iterations set, all users need to be reconfigured with the new iteration.",
-                    "New iterations set",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Asterisk);
-            }
-        }
-
-        private void iterations_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                setIterations_Click(sender, e);
             }
         }
     }

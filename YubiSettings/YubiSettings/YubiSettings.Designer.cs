@@ -37,9 +37,6 @@
             this.confButton = new System.Windows.Forms.Button();
             this.testOutputLabel = new System.Windows.Forms.Label();
             this.safemodeCheckBox = new System.Windows.Forms.CheckBox();
-            this.iterationsInput = new System.Windows.Forms.TextBox();
-            this.setIterationsButton = new System.Windows.Forms.Button();
-            this.iterationsLabel = new System.Windows.Forms.Label();
             this.userSelect = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
@@ -56,7 +53,7 @@
             // testButton
             // 
             this.testButton.Enabled = false;
-            this.testButton.Location = new System.Drawing.Point(12, 236);
+            this.testButton.Location = new System.Drawing.Point(12, 184);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(75, 23);
             this.testButton.TabIndex = 2;
@@ -76,7 +73,7 @@
             // testLabel
             // 
             this.testLabel.AutoSize = true;
-            this.testLabel.Location = new System.Drawing.Point(9, 220);
+            this.testLabel.Location = new System.Drawing.Point(9, 168);
             this.testLabel.Name = "testLabel";
             this.testLabel.Size = new System.Drawing.Size(64, 13);
             this.testLabel.TabIndex = 5;
@@ -86,7 +83,7 @@
             // 
             this.enableCheckBox.AutoSize = true;
             this.enableCheckBox.Enabled = false;
-            this.enableCheckBox.Location = new System.Drawing.Point(127, 184);
+            this.enableCheckBox.Location = new System.Drawing.Point(127, 132);
             this.enableCheckBox.Name = "enableCheckBox";
             this.enableCheckBox.Size = new System.Drawing.Size(64, 17);
             this.enableCheckBox.TabIndex = 6;
@@ -97,7 +94,7 @@
             // confButton
             // 
             this.confButton.Enabled = false;
-            this.confButton.Location = new System.Drawing.Point(12, 180);
+            this.confButton.Location = new System.Drawing.Point(12, 128);
             this.confButton.Name = "confButton";
             this.confButton.Size = new System.Drawing.Size(75, 23);
             this.confButton.TabIndex = 7;
@@ -108,7 +105,7 @@
             // testOutputLabel
             // 
             this.testOutputLabel.AutoSize = true;
-            this.testOutputLabel.Location = new System.Drawing.Point(9, 262);
+            this.testOutputLabel.Location = new System.Drawing.Point(9, 210);
             this.testOutputLabel.Name = "testOutputLabel";
             this.testOutputLabel.Size = new System.Drawing.Size(56, 13);
             this.testOutputLabel.TabIndex = 8;
@@ -125,38 +122,11 @@
             this.safemodeCheckBox.UseVisualStyleBackColor = true;
             this.safemodeCheckBox.Click += new System.EventHandler(this.toggleSafeMode);
             // 
-            // iterationsInput
-            // 
-            this.iterationsInput.Location = new System.Drawing.Point(12, 103);
-            this.iterationsInput.Name = "iterationsInput";
-            this.iterationsInput.Size = new System.Drawing.Size(100, 20);
-            this.iterationsInput.TabIndex = 11;
-            this.iterationsInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.iterations_KeyDown);
-            // 
-            // setIterationsButton
-            // 
-            this.setIterationsButton.Location = new System.Drawing.Point(127, 101);
-            this.setIterationsButton.Name = "setIterationsButton";
-            this.setIterationsButton.Size = new System.Drawing.Size(31, 22);
-            this.setIterationsButton.TabIndex = 12;
-            this.setIterationsButton.Text = "set";
-            this.setIterationsButton.UseVisualStyleBackColor = true;
-            this.setIterationsButton.Click += new System.EventHandler(this.setIterations_Click);
-            // 
-            // iterationsLabel
-            // 
-            this.iterationsLabel.AutoSize = true;
-            this.iterationsLabel.Location = new System.Drawing.Point(9, 87);
-            this.iterationsLabel.Name = "iterationsLabel";
-            this.iterationsLabel.Size = new System.Drawing.Size(78, 13);
-            this.iterationsLabel.TabIndex = 13;
-            this.iterationsLabel.Text = "Hash Iterations";
-            // 
             // userSelect
             // 
             this.userSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.userSelect.FormattingEnabled = true;
-            this.userSelect.Location = new System.Drawing.Point(12, 153);
+            this.userSelect.Location = new System.Drawing.Point(12, 101);
             this.userSelect.Name = "userSelect";
             this.userSelect.Size = new System.Drawing.Size(100, 21);
             this.userSelect.TabIndex = 14;
@@ -167,11 +137,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 320);
+            this.ClientSize = new System.Drawing.Size(271, 272);
             this.Controls.Add(this.userSelect);
-            this.Controls.Add(this.iterationsLabel);
-            this.Controls.Add(this.setIterationsButton);
-            this.Controls.Add(this.iterationsInput);
             this.Controls.Add(this.safemodeCheckBox);
             this.Controls.Add(this.testOutputLabel);
             this.Controls.Add(this.confButton);
@@ -198,9 +165,6 @@
         private System.Windows.Forms.Button confButton;
         private System.Windows.Forms.Label testOutputLabel;
         private System.Windows.Forms.CheckBox safemodeCheckBox;
-        private System.Windows.Forms.TextBox iterationsInput;
-        private System.Windows.Forms.Button setIterationsButton;
-        private System.Windows.Forms.Label iterationsLabel;
         private System.Windows.Forms.ComboBox userSelect;
     }
 }
