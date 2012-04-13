@@ -49,10 +49,12 @@ namespace YubiSettings
             if (value == null)
             {
                 toggleLabel.Text = "YubiKey Logon disabled";
+                toggleButton.Text = "Enable";
             }
             else if (((string)value) == "msvsubauth")
             {
                 toggleLabel.Text = "YubiKey Logon enabled";
+                toggleButton.Text = "Enable";
             }
             else
             {
@@ -76,7 +78,11 @@ namespace YubiSettings
             WqlObjectQuery query = new WqlObjectQuery("Select Name from WIN32_UserAccount where Disabled = false");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             foreach(ManagementBaseObject user in searcher.Get()) {
-                userSelect.Items.Add(user.GetPropertyValue("Name"));
+                String name = user.GetPropertyValue("Name").ToString();
+                if (!name.EndsWith("$"))
+                {
+                    userSelect.Items.Add(name);
+                }
             }
 
             api.deviceInserted += new _IYubiClientEvents_deviceInsertedEventHandler(yubiKey_Inserted);
@@ -101,7 +107,8 @@ namespace YubiSettings
                 clsKey = clsKey.CreateSubKey("InprocServer32");
                 clsKey.SetValue(null, "SampleWrapExistingCredentialProvider");
                 clsKey.SetValue("ThreadingModel", "Apartment");
-                toggleLabel.Text = "YubiAuth enabled";
+                toggleLabel.Text = "YubiKey Logon enabled";
+                toggleButton.Text = "Disable";
             }
             else
             {
@@ -109,7 +116,8 @@ namespace YubiSettings
                 cKey.DeleteSubKeyTree(GUID, false);
                 fKey.DeleteSubKeyTree(GUID, false);
                 Registry.ClassesRoot.CreateSubKey("CLSID").DeleteSubKeyTree(GUID, false);
-                toggleLabel.Text = "YubiAuth disabled";
+                toggleLabel.Text = "YubiKey Logon disabled";
+                toggleButton.Text = "Enable";
             }
         }
 

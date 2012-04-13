@@ -57,7 +57,7 @@
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(75, 23);
             this.testButton.TabIndex = 2;
-            this.testButton.Text = "test";
+            this.testButton.Text = "Test";
             this.testButton.UseVisualStyleBackColor = true;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
@@ -75,9 +75,9 @@
             this.testLabel.AutoSize = true;
             this.testLabel.Location = new System.Drawing.Point(9, 168);
             this.testLabel.Name = "testLabel";
-            this.testLabel.Size = new System.Drawing.Size(64, 13);
+            this.testLabel.Size = new System.Drawing.Size(129, 13);
             this.testLabel.TabIndex = 5;
-            this.testLabel.Text = "press to test";
+            this.testLabel.Text = "Press to test configuration";
             // 
             // enableCheckBox
             // 
@@ -98,7 +98,7 @@
             this.confButton.Name = "confButton";
             this.confButton.Size = new System.Drawing.Size(75, 23);
             this.confButton.TabIndex = 7;
-            this.confButton.Text = "configure";
+            this.confButton.Text = "Configure";
             this.confButton.UseVisualStyleBackColor = true;
             this.confButton.Click += new System.EventHandler(this.configureButton_Click);
             // 
