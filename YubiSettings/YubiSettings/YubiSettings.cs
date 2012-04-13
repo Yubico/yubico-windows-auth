@@ -24,7 +24,7 @@ namespace YubiSettings
         private static String CREDENTIAL_PROVIDERS = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Providers\\";
         private static String CREDENTIAL_FILTERS = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Provider Filters\\";
         private static String GUID = "{0f33b914-4f18-4824-8880-29bbe2e05179}";
-        private static int DEFAULT_ITERATIONS = 50000;
+        private static int DEFAULT_ITERATIONS = 10000;
 
         YubiClient api;
 
@@ -48,11 +48,11 @@ namespace YubiSettings
             Object value = key.GetValue("Auth0");
             if (value == null)
             {
-                toggleLabel.Text = "YubiAuth disabled";
+                toggleLabel.Text = "YubiKey Logon disabled";
             }
             else if (((string)value) == "msvsubauth")
             {
-                toggleLabel.Text = "YubiAuth enabled";
+                toggleLabel.Text = "YubiKey Logon enabled";
             }
             else
             {
