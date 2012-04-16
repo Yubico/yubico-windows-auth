@@ -96,6 +96,7 @@ namespace YubiSettings
             RegistryKey fKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_FILTERS);
             RegistryKey clsKey = Registry.ClassesRoot.CreateSubKey("CLSID\\" + GUID);
             Object value = key.GetValue("Auth0");
+            String state;
             if (value == null)
             {
                 cKey = cKey.CreateSubKey(GUID);
@@ -109,6 +110,7 @@ namespace YubiSettings
                 clsKey.SetValue("ThreadingModel", "Apartment");
                 toggleLabel.Text = "YubiKey Logon enabled";
                 toggleButton.Text = "Disable";
+                state = "enabled";
             }
             else
             {
@@ -118,7 +120,9 @@ namespace YubiSettings
                 Registry.ClassesRoot.CreateSubKey("CLSID").DeleteSubKeyTree(GUID, false);
                 toggleLabel.Text = "YubiKey Logon disabled";
                 toggleButton.Text = "Enable";
+                state = "disabled";
             }
+            MessageBox.Show("YubiKey Logon " + state + ", please reboot the computer for settings to take effect.", "YubiKey Logon " + state);
         }
 
         private void toggleSafeMode(object sender, EventArgs e)
