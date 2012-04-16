@@ -39,6 +39,8 @@
             this.safemodeCheckBox = new System.Windows.Forms.CheckBox();
             this.userSelect = new System.Windows.Forms.ComboBox();
             this.userLabel = new System.Windows.Forms.Label();
+            this.logoBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             this.SuspendLayout();
             // 
             // toggleButton
@@ -143,11 +145,22 @@
             this.userLabel.TabIndex = 15;
             this.userLabel.Text = "Select user to configure";
             // 
+            // logoBox
+            // 
+            this.logoBox.Image = global::YubiSettings.Properties.Resources.logo;
+            this.logoBox.Location = new System.Drawing.Point(143, 168);
+            this.logoBox.Name = "logoBox";
+            this.logoBox.Size = new System.Drawing.Size(100, 50);
+            this.logoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.logoBox.TabIndex = 16;
+            this.logoBox.TabStop = false;
+            // 
             // YubiSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(271, 272);
+            this.ClientSize = new System.Drawing.Size(272, 274);
+            this.Controls.Add(this.logoBox);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.userSelect);
             this.Controls.Add(this.safemodeCheckBox);
@@ -161,6 +174,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "YubiSettings";
             this.Text = "YubiKey Logon Administration";
+            ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,6 +192,7 @@
         private System.Windows.Forms.CheckBox safemodeCheckBox;
         private System.Windows.Forms.ComboBox userSelect;
         private System.Windows.Forms.Label userLabel;
+        private System.Windows.Forms.PictureBox logoBox;
     }
 }
 
