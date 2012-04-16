@@ -45,7 +45,7 @@
             // 
             // toggleButton
             // 
-            this.toggleButton.Location = new System.Drawing.Point(12, 45);
+            this.toggleButton.Location = new System.Drawing.Point(12, 56);
             this.toggleButton.Name = "toggleButton";
             this.toggleButton.Size = new System.Drawing.Size(75, 23);
             this.toggleButton.TabIndex = 0;
@@ -56,7 +56,7 @@
             // testButton
             // 
             this.testButton.Enabled = false;
-            this.testButton.Location = new System.Drawing.Point(12, 184);
+            this.testButton.Location = new System.Drawing.Point(12, 195);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(75, 23);
             this.testButton.TabIndex = 2;
@@ -76,7 +76,7 @@
             // testLabel
             // 
             this.testLabel.AutoSize = true;
-            this.testLabel.Location = new System.Drawing.Point(9, 168);
+            this.testLabel.Location = new System.Drawing.Point(9, 179);
             this.testLabel.Name = "testLabel";
             this.testLabel.Size = new System.Drawing.Size(129, 13);
             this.testLabel.TabIndex = 5;
@@ -86,7 +86,7 @@
             // 
             this.enableCheckBox.AutoSize = true;
             this.enableCheckBox.Enabled = false;
-            this.enableCheckBox.Location = new System.Drawing.Point(127, 132);
+            this.enableCheckBox.Location = new System.Drawing.Point(127, 143);
             this.enableCheckBox.Name = "enableCheckBox";
             this.enableCheckBox.Size = new System.Drawing.Size(64, 17);
             this.enableCheckBox.TabIndex = 6;
@@ -97,7 +97,7 @@
             // confButton
             // 
             this.confButton.Enabled = false;
-            this.confButton.Location = new System.Drawing.Point(12, 128);
+            this.confButton.Location = new System.Drawing.Point(12, 139);
             this.confButton.Name = "confButton";
             this.confButton.Size = new System.Drawing.Size(75, 23);
             this.confButton.TabIndex = 7;
@@ -108,7 +108,7 @@
             // testOutputLabel
             // 
             this.testOutputLabel.AutoSize = true;
-            this.testOutputLabel.Location = new System.Drawing.Point(9, 210);
+            this.testOutputLabel.Location = new System.Drawing.Point(9, 221);
             this.testOutputLabel.Name = "testOutputLabel";
             this.testOutputLabel.Size = new System.Drawing.Size(56, 13);
             this.testOutputLabel.TabIndex = 8;
@@ -117,7 +117,7 @@
             // safemodeCheckBox
             // 
             this.safemodeCheckBox.AutoSize = true;
-            this.safemodeCheckBox.Location = new System.Drawing.Point(127, 49);
+            this.safemodeCheckBox.Location = new System.Drawing.Point(127, 60);
             this.safemodeCheckBox.Name = "safemodeCheckBox";
             this.safemodeCheckBox.Size = new System.Drawing.Size(124, 17);
             this.safemodeCheckBox.TabIndex = 9;
@@ -129,7 +129,7 @@
             // 
             this.userSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.userSelect.FormattingEnabled = true;
-            this.userSelect.Location = new System.Drawing.Point(12, 101);
+            this.userSelect.Location = new System.Drawing.Point(12, 112);
             this.userSelect.Name = "userSelect";
             this.userSelect.Size = new System.Drawing.Size(100, 21);
             this.userSelect.TabIndex = 14;
@@ -139,7 +139,7 @@
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(124, 104);
+            this.userLabel.Location = new System.Drawing.Point(124, 115);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(119, 13);
             this.userLabel.TabIndex = 15;
@@ -148,7 +148,7 @@
             // logoBox
             // 
             this.logoBox.Image = global::YubiSettings.Properties.Resources.logo;
-            this.logoBox.Location = new System.Drawing.Point(143, 168);
+            this.logoBox.Location = new System.Drawing.Point(151, 4);
             this.logoBox.Name = "logoBox";
             this.logoBox.Size = new System.Drawing.Size(100, 50);
             this.logoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -159,7 +159,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(272, 274);
+            this.ClientSize = new System.Drawing.Size(272, 293);
             this.Controls.Add(this.logoBox);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.userSelect);
