@@ -48,13 +48,23 @@ namespace YubiSettings
             Object value = key.GetValue("Auth0");
             if (value == null)
             {
-                toggleLabel.Text = "YubiKey Logon disabled";
-                toggleButton.Text = "Enable";
+                DialogResult result = MessageBox.Show("YubiKey Logon is not enabled, do you want to enable it?", "YubiKey Logon not enabled", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result.Equals(DialogResult.Yes))
+                {
+                    toggleLabel.Text = "YubiKey Logon enabled";
+                    toggleButton.Text = "Disable";
+                    toggleEnabled();
+                }
+                else
+                {
+                    toggleLabel.Text = "YubiKey Logon disabled";
+                    toggleButton.Text = "Enable";
+                }
             }
             else if (((string)value) == "msvsubauth")
             {
                 toggleLabel.Text = "YubiKey Logon enabled";
-                toggleButton.Text = "Enable";
+                toggleButton.Text = "Disable";
             }
             else
             {
@@ -90,6 +100,11 @@ namespace YubiSettings
         }
 
         private void toggleButton_Click(object sender, EventArgs e)
+        {
+            toggleEnabled();
+        }
+
+        private void toggleEnabled()
         {
             RegistryKey key = Registry.LocalMachine.CreateSubKey(MSV1_0);
             RegistryKey cKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_PROVIDERS);
