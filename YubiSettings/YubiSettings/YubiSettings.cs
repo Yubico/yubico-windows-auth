@@ -201,10 +201,27 @@ namespace YubiSettings
             byte[] salt = ConfigureNewSalt(username);
             if (ConfigureNewChallengeAndResponse(username, salt))
             {
-                MessageBox.Show("Successfully configured YubiKey authentication",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                if (enableCheckBox.Checked == true)
+                {
+                    MessageBox.Show("Successfully configured YubiKey Logon",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                else
+                {
+                    DialogResult result = MessageBox.Show(
+                        "Successfully configured YubiKey Logon, do you want to enable YubiKey Logon for this user?",
+                        "Success",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+                    if (result.Equals(DialogResult.Yes))
+                    {
+                        enableCheckBox.Checked = true;
+                        toggleEnabled(sender, e);
+                    }
+                }
+                
             }
             else
             {
