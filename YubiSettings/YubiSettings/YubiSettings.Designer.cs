@@ -38,6 +38,7 @@
             this.testOutputLabel = new System.Windows.Forms.Label();
             this.safemodeCheckBox = new System.Windows.Forms.CheckBox();
             this.userSelect = new System.Windows.Forms.ComboBox();
+            this.userLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // toggleButton
@@ -133,11 +134,21 @@
             this.userSelect.Tag = "";
             this.userSelect.SelectedIndexChanged += new System.EventHandler(this.userSelected);
             // 
+            // userLabel
+            // 
+            this.userLabel.AutoSize = true;
+            this.userLabel.Location = new System.Drawing.Point(124, 104);
+            this.userLabel.Name = "userLabel";
+            this.userLabel.Size = new System.Drawing.Size(119, 13);
+            this.userLabel.TabIndex = 15;
+            this.userLabel.Text = "Select user to configure";
+            // 
             // YubiSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(271, 272);
+            this.Controls.Add(this.userLabel);
             this.Controls.Add(this.userSelect);
             this.Controls.Add(this.safemodeCheckBox);
             this.Controls.Add(this.testOutputLabel);
@@ -166,6 +177,7 @@
         private System.Windows.Forms.Label testOutputLabel;
         private System.Windows.Forms.CheckBox safemodeCheckBox;
         private System.Windows.Forms.ComboBox userSelect;
+        private System.Windows.Forms.Label userLabel;
     }
 }
 
