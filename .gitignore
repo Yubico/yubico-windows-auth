@@ -4,3 +4,4 @@ Debug/
 obj/
 bin/
 Release/
+*.suo
