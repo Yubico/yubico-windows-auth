@@ -31,7 +31,7 @@
           </Directory>
         </Directory>
       </Directory>
-      <Directory Id="SystemFolder">
+      <Directory Id="System64Folder">
         <Component Id="msvsubauth" Guid="c39d0350-c143-4e80-8b60-3f4864a07535" Win64="yes">
           <File Id="msvsubauth.dll" DiskId="1"/>
         </Component>
