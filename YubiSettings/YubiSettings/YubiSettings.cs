@@ -209,6 +209,8 @@ namespace YubiSettings
         private void configureButton_Click(object sender, EventArgs e)
         {
             String username = userSelect.SelectedItem.ToString();
+            testOutputLabel.Text = "Configuring, please wait..";
+            testOutputLabel.Refresh();
             byte[] salt = ConfigureNewSalt(username);
             if (ConfigureNewChallengeAndResponse(username, salt))
             {
@@ -311,7 +313,9 @@ namespace YubiSettings
                     MessageBoxIcon.Error);
                 return;
             }
-            
+
+            testOutputLabel.Text = "Testing, please wait..";
+            testOutputLabel.Refresh();
             byte[] response = DoChallengeResponse(challenge, salt);
             if (response == null)
             {
