@@ -187,6 +187,17 @@ namespace YubiSettings
             RegistryKey userKey = Registry.LocalMachine.CreateSubKey(USERS + username);
             if (enableCheckBox.Checked == true)
             {
+                byte[] challenge = (byte[])userKey.GetValue("nextChallenge");
+                byte[] salt = (byte[])userKey.GetValue("salt");
+                if (challenge == null || salt == null)
+                {
+                    enableCheckBox.Checked = false;
+                    MessageBox.Show("Configure the key before enabling it",
+                        "No Key configured",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
                 userKey.SetValue("enabled", 1);
             }
             else
