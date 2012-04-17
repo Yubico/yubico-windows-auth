@@ -33,6 +33,7 @@ namespace YubiSettings
         public YubiSettings()
         {
             InitializeComponent();
+            bool exit = false;
 
             try
             {
@@ -41,12 +42,13 @@ namespace YubiSettings
             catch
             {
                 MessageBox.Show("Could not instantiate Yubico com api, is it installed?", "Yubico API failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                exit = true;
                 Application.Exit();
             }
 
             RegistryKey key = Registry.LocalMachine.OpenSubKey(MSV1_0);
             Object value = key.GetValue("Auth0");
-            if (value == null)
+            if (value == null && !exit)
             {
                 DialogResult result = MessageBox.Show("YubiKey Logon is not enabled, do you want to enable it?", "YubiKey Logon not enabled", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result.Equals(DialogResult.Yes))
