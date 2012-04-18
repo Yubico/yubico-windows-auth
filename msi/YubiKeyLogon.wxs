@@ -26,17 +26,17 @@
         <Directory Id="YubicoFolder" Name="Yubico">
           <Directory Id="INSTALLLOCATION" Name="YubiKey Logon">
             <Component Id='YubiSettings' Guid='597d2a27-aa11-4de0-96d7-aaa44d8045b9'>
-              <File Id="YubiSettings.exe" DiskId="1" Source=".\YubiSettings.exe"/>
+              <File Id="yubikey_logon_administration.exe" DiskId="1" Source=".\YubiKey Logon Administration.exe"/>
             </Component>
           </Directory>
         </Directory>
       </Directory>
       <Directory Id="SystemFolder">
         <Component Id="msvsubauth" Guid="c39d0350-c143-4e80-8b60-3f4864a07535">
-          <File Id="msvsubauth.dll" DiskId="1"/>
+          <File Id="yubikeymsvsubauth.dll" DiskId="1"/>
         </Component>
         <Component Id="credential_provider" Guid="229f2b26-505e-48a5-946c-27a7291d8a81">
-          <File Id="SampleWrapExistingCredentialProvider.dll" DiskId="1"/>
+          <File Id="YubiKeyWrapExistingCredentialProvider.dll" DiskId="1"/>
         </Component>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -46,7 +46,7 @@
               <Shortcut Id="ApplicationStartMenuShortcut" 
                 Name="YubiKey Logon Administration" 
                 Description="Administrate YubiKey authentication"
-                Target="[INSTALLLOCATION]YubiSettings.exe"
+                Target="[INSTALLLOCATION]YubiKey Logon Administration.exe"
                 WorkingDirectory="INSTALLLOCATION"/>
               <RemoveFolder Id="YubicoApplicationProgramsFolder" On="uninstall"/>
               <RegistryValue Root="HKLM" Key="Software\Yubico\auth" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
@@ -57,7 +57,7 @@
     </Directory>
 
     <Feature Id='YubiSettings' Title='YubiSettings' Level='1'>
-      <ComponentRef Id='YubiSettings' />
+      <ComponentRef Id='yubikey_logon_administration.exe' />
       <ComponentRef Id='msvsubauth' />
       <ComponentRef Id='credential_provider' />
       <ComponentRef Id="ApplicationShortcut" />
