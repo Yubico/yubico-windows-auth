@@ -486,11 +486,11 @@ HRESULT CYkCredential::ReportResult(
 {
     HRESULT hr = E_UNEXPECTED;
 
-	if(ntsStatus == 0xC0000244L) {
+	if(ntsStatus == 0xFFFF0001L) { // challenge-response failed
 		SHStrDupW(L"YubiKey auth failed, please insert correct YubiKey.", ppwszOptionalStatusText);
 		*pcpsiOptionalStatusIcon = CPSI_ERROR;
 		hr = S_OK;
-	} else if(ntsStatus == 0xC0000245L) {
+	} else if(ntsStatus == 0xFFFF0002L) { // wrong response
 		SHStrDupW(L"YubiKey auth failed, please insert correct YubiKey.", ppwszOptionalStatusText);
 		*pcpsiOptionalStatusIcon = CPSI_ERROR;
 		hr = S_OK;

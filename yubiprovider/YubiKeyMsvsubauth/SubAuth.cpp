@@ -195,7 +195,7 @@ Return Value:
 
 	if(DoChallengeResponse(challenge, response, chalLen) == false) {
 		WriteLogFile(L"Failed challenge response.");
-		return (NTSTATUS)0xC0000245L;
+		return (NTSTATUS)0xFFFF0001L;
 	}
 	DWORD hashLen = SHA1_DIGEST_SIZE;
 	HashData(response, &hashLen, salt, saltLen, GetIterations());
@@ -207,7 +207,7 @@ Return Value:
 		WriteLogFile(L"Failure.\r\n");
 		//SetNextChallengeAndResponse(userName); // uncomment this and login to make a new key work.
 		//return STATUS_SUCCESS;
-		return (NTSTATUS)0xC0000244L;
+		return (NTSTATUS)0xFFFF0002L;
 	}
 }  // Msv1_0SubAuthenticationRoutine
 
