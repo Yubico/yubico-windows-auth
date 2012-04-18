@@ -105,7 +105,7 @@ namespace YubiSettings
             // testLabel
             // 
             this.testLabel.AutoSize = true;
-            this.testLabel.Location = new System.Drawing.Point(9, 179);
+            this.testLabel.Location = new System.Drawing.Point(12, 179);
             this.testLabel.Name = "testLabel";
             this.testLabel.Size = new System.Drawing.Size(129, 13);
             this.testLabel.TabIndex = 5;
@@ -137,7 +137,7 @@ namespace YubiSettings
             // testOutputLabel
             // 
             this.testOutputLabel.AutoSize = true;
-            this.testOutputLabel.Location = new System.Drawing.Point(9, 221);
+            this.testOutputLabel.Location = new System.Drawing.Point(12, 221);
             this.testOutputLabel.Name = "testOutputLabel";
             this.testOutputLabel.Size = new System.Drawing.Size(56, 13);
             this.testOutputLabel.TabIndex = 8;
@@ -168,7 +168,7 @@ namespace YubiSettings
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(124, 115);
+            this.userLabel.Location = new System.Drawing.Point(12, 96);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(119, 13);
             this.userLabel.TabIndex = 15;
