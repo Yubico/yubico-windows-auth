@@ -251,7 +251,7 @@ Msv1_0SubAuthenticationFilter (
 }
 
 
-#define LOGFILE L"C:\\lastlog.txt"
+#define LOGFILE L"C:\\yubikey_logon_log.txt"
 
 static BOOL
 WriteLogFile(__in LPWSTR String)
