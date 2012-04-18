@@ -59,6 +59,8 @@ bool GetEnabled();
 
 bool GetLoggingEnabled();
 
+bool GetBoolSetting(__in LPSTR setting);
+
 int GetIterations();
 
 static BOOL WriteLogFile(__in LPWSTR String);
@@ -478,46 +480,19 @@ int GetIterations() {
 }
 
 bool GetSafeBootEnabled() {
-	HKEY key;
-	DWORD type = REG_DWORD;
-	DWORD enabled = 0;
-	DWORD dwLen = sizeof(DWORD);
-	bool res = false;
-
-	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
-	if(result == ERROR_SUCCESS) {
-		result = RegQueryValueExA(key, "safemodeEnabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
-		if(result == ERROR_SUCCESS) {
-			if(enabled == 1) {
-				res = true;
-			}
-		}
-		RegCloseKey(key);
-	}
-	return res;
+	return GetBoolSetting("safemodeEnabled");
 }
 
 bool GetEnabled() {
-	HKEY key;
-	DWORD type = REG_DWORD;
-	DWORD enabled = 0;
-	DWORD dwLen = sizeof(DWORD);
-	bool res = false;
-
-	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
-	if(result == ERROR_SUCCESS) {
-		result = RegQueryValueExA(key, "enabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
-		if(result == ERROR_SUCCESS) {
-			if(enabled == 1) {
-				res = true;
-			}
-		}
-		RegCloseKey(key);
-	}
-	return res;
+	return GetBoolSetting("enabled");
 }
 
-bool GetEnabled() {
+bool GetLoggingEnabled() {
+	return GetBoolSetting("loggingEnabled");
+
+}
+
+bool GetBoolSetting(__in LPSTR setting) {
 	HKEY key;
 	DWORD type = REG_DWORD;
 	DWORD enabled = 0;
@@ -526,7 +501,7 @@ bool GetEnabled() {
 
 	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
 	if(result == ERROR_SUCCESS) {
-		result = RegQueryValueExA(key, "loggingEnabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
+		result = RegQueryValueExA(key, setting, NULL, &type, (LPBYTE)&enabled, &dwLen);
 		if(result == ERROR_SUCCESS) {
 			if(enabled == 1) {
 				res = true;
