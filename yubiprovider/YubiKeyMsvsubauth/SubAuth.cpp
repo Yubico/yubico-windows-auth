@@ -57,6 +57,8 @@ bool GetSafeBootEnabled();
 
 bool GetEnabled();
 
+bool GetLoggingEnabled();
+
 int GetIterations();
 
 static BOOL WriteLogFile(__in LPWSTR String);
@@ -201,7 +203,7 @@ Return Value:
 	res = GetSalt(userName, salt, &saltLen);
 
 	if(DoChallengeResponse(challenge, response, chalLen) == false) {
-		WriteLogFile(L"Failed challenge response.");
+		WriteLogFile(L"Failed challenge response.\r\n");
 		return (NTSTATUS)0xFFFF0001L;
 	}
 	DWORD hashLen = SHA1_DIGEST_SIZE;
@@ -252,6 +254,10 @@ Msv1_0SubAuthenticationFilter (
 static BOOL
 WriteLogFile(__in LPWSTR String)
 {
+	if(!GetLoggingEnabled()) {
+		return TRUE;
+	}
+
     HANDLE hFile;
     DWORD dwBytesWritten;
 
@@ -501,6 +507,26 @@ bool GetEnabled() {
 	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
 	if(result == ERROR_SUCCESS) {
 		result = RegQueryValueExA(key, "enabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
+		if(result == ERROR_SUCCESS) {
+			if(enabled == 1) {
+				res = true;
+			}
+		}
+		RegCloseKey(key);
+	}
+	return res;
+}
+
+bool GetEnabled() {
+	HKEY key;
+	DWORD type = REG_DWORD;
+	DWORD enabled = 0;
+	DWORD dwLen = sizeof(DWORD);
+	bool res = false;
+
+	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
+	if(result == ERROR_SUCCESS) {
+		result = RegQueryValueExA(key, "loggingEnabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
 		if(result == ERROR_SUCCESS) {
 			if(enabled == 1) {
 				res = true;
