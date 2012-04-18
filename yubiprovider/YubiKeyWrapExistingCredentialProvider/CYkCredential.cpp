@@ -102,7 +102,7 @@ HRESULT CYkCredential::Initialize(
 		PWSTR username = L"";
 		GetStringValue(0, &username);
 		if(_CheckEnabled(username)) {
-			hr = SHStrDup(L"YubiKey auth enabled for user.", &_rgFieldStrings[SFI_YUBIKEY_STATUS]);
+			hr = SHStrDup(L"YubiKey Logon enabled for user.", &_rgFieldStrings[SFI_YUBIKEY_STATUS]);
 		} else {
 			hr = SHStrDup(L"", &_rgFieldStrings[SFI_YUBIKEY_STATUS]);
 		}
@@ -487,11 +487,11 @@ HRESULT CYkCredential::ReportResult(
     HRESULT hr = E_UNEXPECTED;
 
 	if(ntsStatus == 0xFFFF0001L) { // challenge-response failed
-		SHStrDupW(L"YubiKey auth failed, please insert correct YubiKey.", ppwszOptionalStatusText);
+		SHStrDupW(L"YubiKey Logon failed, is there a YubiKey inserted?", ppwszOptionalStatusText);
 		*pcpsiOptionalStatusIcon = CPSI_ERROR;
 		hr = S_OK;
 	} else if(ntsStatus == 0xFFFF0002L) { // wrong response
-		SHStrDupW(L"YubiKey auth failed, please insert correct YubiKey.", ppwszOptionalStatusText);
+		SHStrDupW(L"YubiKey Logon failed, please insert correct YubiKey.", ppwszOptionalStatusText);
 		*pcpsiOptionalStatusIcon = CPSI_ERROR;
 		hr = S_OK;
 	}
