@@ -16,7 +16,7 @@
 #endif
 #include <unknwn.h>
 
-#include "CSampleCredential.h"
+#include "CYkCredential.h"
 #include "CWrappedCredentialEvents.h"
 #include "guid.h"
 
@@ -24,13 +24,13 @@
 
 #include <string>
 
-// CSampleCredential ////////////////////////////////////////////////////////
+// CYkCredential ////////////////////////////////////////////////////////
 
 // NOTE: Please read the readme.txt file to understand when it's appropriate to
 // wrap an another credential provider and when it's not.  If you have questions
 // about whether your scenario is an appropriate use of wrapping another credprov,
 // please contact credprov@microsoft.com
-CSampleCredential::CSampleCredential():
+CYkCredential::CYkCredential():
     _cRef(1)
 {
     DllAddRef();
@@ -47,7 +47,7 @@ CSampleCredential::CSampleCredential():
     _dwDatabaseIndex = 0;
 }
 
-CSampleCredential::~CSampleCredential()
+CYkCredential::~CYkCredential()
 {
     for (int i = 0; i < ARRAYSIZE(_rgFieldStrings); i++)
     {
@@ -67,7 +67,7 @@ CSampleCredential::~CSampleCredential()
 
 // Initializes one credential with the field information passed in. We also keep track
 // of our wrapped credential and how many fields it has.
-HRESULT CSampleCredential::Initialize(
+HRESULT CYkCredential::Initialize(
     __in const CREDENTIAL_PROVIDER_FIELD_DESCRIPTOR* rgcpfd,
     __in const FIELD_STATE_PAIR* rgfsp,
     __in ICredentialProviderCredential *pWrappedCredential,
@@ -115,7 +115,7 @@ HRESULT CSampleCredential::Initialize(
 
 // LogonUI calls this in order to give us a callback in case we need to notify it of 
 // anything. We'll also provide it to the wrapped credential.
-HRESULT CSampleCredential::Advise(
+HRESULT CYkCredential::Advise(
     __in ICredentialProviderCredentialEvents* pcpce
     )
 {
@@ -149,7 +149,7 @@ HRESULT CSampleCredential::Advise(
 
 // LogonUI calls this to tell us to release the callback. 
 // We'll also provide it to the wrapped credential.
-HRESULT CSampleCredential::UnAdvise()
+HRESULT CYkCredential::UnAdvise()
 {
     HRESULT hr = S_OK;
     
@@ -168,7 +168,7 @@ HRESULT CSampleCredential::UnAdvise()
 // there's no need to do anything here - you can set that up in the 
 // field definitions. In fact, we're just going to hand it off to the
 // wrapped credential in case it wants to do something.
-HRESULT CSampleCredential::SetSelected(__out BOOL* pbAutoLogon)  
+HRESULT CYkCredential::SetSelected(__out BOOL* pbAutoLogon)  
 {
     HRESULT hr = E_UNEXPECTED;
 
@@ -184,7 +184,7 @@ HRESULT CSampleCredential::SetSelected(__out BOOL* pbAutoLogon)
 
 // Similarly to SetSelected, LogonUI calls this when your tile was selected
 // and now no longer is. We'll let the wrapped credential do anything it needs.
-HRESULT CSampleCredential::SetDeselected()
+HRESULT CYkCredential::SetDeselected()
 {
     HRESULT hr = E_UNEXPECTED;
 
@@ -199,7 +199,7 @@ HRESULT CSampleCredential::SetDeselected()
 // Get info for a particular field of a tile. Called by logonUI to get information to 
 // display the tile. We'll check to see if it's for us or the wrapped credential, and then
 // handle or route it as appropriate.
-HRESULT CSampleCredential::GetFieldState(
+HRESULT CYkCredential::GetFieldState(
     __in DWORD dwFieldID,
     __out CREDENTIAL_PROVIDER_FIELD_STATE* pcpfs,
     __out CREDENTIAL_PROVIDER_FIELD_INTERACTIVE_STATE* pcpfis
@@ -246,7 +246,7 @@ HRESULT CSampleCredential::GetFieldState(
 
 // Sets ppwsz to the string value of the field at the index dwFieldID. We'll check to see if 
 // it's for us or the wrapped credential, and then handle or route it as appropriate.
-HRESULT CSampleCredential::GetStringValue(
+HRESULT CYkCredential::GetStringValue(
     __in DWORD dwFieldID, 
     __deref_out PWSTR* ppwsz
     )
@@ -284,7 +284,7 @@ HRESULT CSampleCredential::GetStringValue(
 // Returns the number of items to be included in the combobox (pcItems), as well as the 
 // currently selected item (pdwSelectedItem). We'll check to see if it's for us or the 
 // wrapped credential, and then handle or route it as appropriate.
-HRESULT CSampleCredential::GetComboBoxValueCount(
+HRESULT CYkCredential::GetComboBoxValueCount(
     __in DWORD dwFieldID, 
     __out DWORD* pcItems, 
     __out_range(<,*pcItems) DWORD* pdwSelectedItem
@@ -308,7 +308,7 @@ HRESULT CSampleCredential::GetComboBoxValueCount(
 // Called iteratively to fill the combobox with the string (ppwszItem) at index dwItem.
 // We'll check to see if it's for us or the wrapped credential, and then handle or route 
 // it as appropriate.
-HRESULT CSampleCredential::GetComboBoxValueAt(
+HRESULT CYkCredential::GetComboBoxValueAt(
     __in DWORD dwFieldID, 
     __in DWORD dwItem,
     __deref_out PWSTR* ppwszItem
@@ -331,7 +331,7 @@ HRESULT CSampleCredential::GetComboBoxValueAt(
 
 // Called when the user changes the selected item in the combobox. We'll check to see if 
 // it's for us or the wrapped credential, and then handle or route it as appropriate.
-HRESULT CSampleCredential::SetComboBoxSelectedValue(
+HRESULT CYkCredential::SetComboBoxSelectedValue(
     __in DWORD dwFieldID,
     __in DWORD dwSelectedItem
     )
@@ -357,7 +357,7 @@ HRESULT CSampleCredential::SetComboBoxSelectedValue(
 // we don't offer these field types ourselves, we need to pass along the request to the
 // wrapped credential.
 
-HRESULT CSampleCredential::GetBitmapValue(
+HRESULT CYkCredential::GetBitmapValue(
     __in DWORD dwFieldID, 
     __out HBITMAP* phbmp
     )
@@ -372,7 +372,7 @@ HRESULT CSampleCredential::GetBitmapValue(
     return hr;
 }
 
-HRESULT CSampleCredential::GetSubmitButtonValue(
+HRESULT CYkCredential::GetSubmitButtonValue(
     __in DWORD dwFieldID,
     __out DWORD* pdwAdjacentTo
     )
@@ -387,7 +387,7 @@ HRESULT CSampleCredential::GetSubmitButtonValue(
     return hr;
 }
 
-HRESULT CSampleCredential::SetStringValue(
+HRESULT CYkCredential::SetStringValue(
     __in DWORD dwFieldID,
     __in PCWSTR pwz
     )
@@ -403,7 +403,7 @@ HRESULT CSampleCredential::SetStringValue(
 
 }
 
-HRESULT CSampleCredential::GetCheckboxValue(
+HRESULT CYkCredential::GetCheckboxValue(
     __in DWORD dwFieldID, 
     __out BOOL* pbChecked,
     __deref_out PWSTR* ppwszLabel
@@ -422,7 +422,7 @@ HRESULT CSampleCredential::GetCheckboxValue(
     return hr;
 }
 
-HRESULT CSampleCredential::SetCheckboxValue(
+HRESULT CYkCredential::SetCheckboxValue(
     __in DWORD dwFieldID, 
     __in BOOL bChecked
     )
@@ -437,7 +437,7 @@ HRESULT CSampleCredential::SetCheckboxValue(
     return hr;
 }
 
-HRESULT CSampleCredential::CommandLinkClicked(__in DWORD dwFieldID)
+HRESULT CYkCredential::CommandLinkClicked(__in DWORD dwFieldID)
 {
     HRESULT hr = E_UNEXPECTED;
 
@@ -458,7 +458,7 @@ HRESULT CSampleCredential::CommandLinkClicked(__in DWORD dwFieldID)
 // (logon/unlock is what's demonstrated in this sample).  LogonUI then passes these credentials 
 // back to the system to log on.
 //
-HRESULT CSampleCredential::GetSerialization(
+HRESULT CYkCredential::GetSerialization(
     __out CREDENTIAL_PROVIDER_GET_SERIALIZATION_RESPONSE* pcpgsr,
     __out CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION* pcpcs, 
     __deref_out_opt PWSTR* ppwszOptionalStatusText, 
@@ -477,7 +477,7 @@ HRESULT CSampleCredential::GetSerialization(
 
 // ReportResult is completely optional. However, we will hand it off to the wrapped
 // credential in case they want to handle it.
-HRESULT CSampleCredential::ReportResult(
+HRESULT CYkCredential::ReportResult(
     __in NTSTATUS ntsStatus, 
     __in NTSTATUS ntsSubstatus,
     __deref_out_opt PWSTR* ppwszOptionalStatusText, 
@@ -503,14 +503,14 @@ HRESULT CSampleCredential::ReportResult(
     return hr;
 }
 
-BOOL CSampleCredential::_IsFieldInWrappedCredential(
+BOOL CYkCredential::_IsFieldInWrappedCredential(
     __in DWORD dwFieldID
     )
 {
     return (dwFieldID < _dwWrappedDescriptorCount);
 }
 
-FIELD_STATE_PAIR *CSampleCredential::_LookupLocalFieldStatePair(
+FIELD_STATE_PAIR *CYkCredential::_LookupLocalFieldStatePair(
     __in DWORD dwFieldID
     )
 {
@@ -526,7 +526,7 @@ FIELD_STATE_PAIR *CSampleCredential::_LookupLocalFieldStatePair(
     return NULL;
 }
 
-void CSampleCredential::_CleanupEvents()
+void CYkCredential::_CleanupEvents()
 {
     // Call Uninitialize before releasing our reference on the real 
     // ICredentialProviderCredentialEvents to avoid having an
@@ -545,7 +545,7 @@ void CSampleCredential::_CleanupEvents()
     }
 }
 
-BOOL CSampleCredential::_CheckEnabled(__in LPWSTR username) {
+BOOL CYkCredential::_CheckEnabled(__in LPWSTR username) {
 	std::wstring subKey = L"SOFTWARE\\Yubico\\auth\\users\\";
 	subKey += username;
 

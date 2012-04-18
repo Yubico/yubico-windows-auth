@@ -13,10 +13,10 @@
 #include <windows.h>
 #include <strsafe.h>
 
-#include "CSampleCredential.h"
+#include "CYkCredential.h"
 #include "helpers.h"
 
-class CSampleProvider : public ICredentialProvider
+class CYkProvider : public ICredentialProvider
 {
   public:
     // IUnknown
@@ -39,7 +39,7 @@ class CSampleProvider : public ICredentialProvider
     {
         static const QITAB qit[] =
         {
-            QITABENT(CSampleProvider, ICredentialProvider), // IID_ICredentialProvider
+            QITABENT(CYkProvider, ICredentialProvider), // IID_ICredentialProvider
             {0},
         };
         return QISearch(this, qit, riid, ppv);
@@ -64,15 +64,15 @@ class CSampleProvider : public ICredentialProvider
     friend HRESULT CSample_CreateInstance(__in REFIID riid, __deref_out void** ppv);
 
   protected:
-    CSampleProvider();
-    __override ~CSampleProvider();
+    CYkProvider();
+    __override ~CYkProvider();
     
   private:
       void _CleanUpAllCredentials();
     
 private:
     LONG                _cRef;
-    CSampleCredential   **_rgpCredentials;          // Pointers to the credentials which will be enumerated by this 
+    CYkCredential   **_rgpCredentials;          // Pointers to the credentials which will be enumerated by this 
                                                     // Provider.
 
     ICredentialProvider *_pWrappedProvider;         // Our wrapped provider.

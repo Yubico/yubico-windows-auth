@@ -21,7 +21,7 @@
 #include "resource.h"
 #include "CWrappedCredentialEvents.h"
 
-class CSampleCredential : public ICredentialProviderCredential
+class CYkCredential : public ICredentialProviderCredential
 {
     public:
     // IUnknown
@@ -44,7 +44,7 @@ class CSampleCredential : public ICredentialProviderCredential
     {
         static const QITAB qit[] =
         {
-            QITABENT(CSampleCredential, ICredentialProviderCredential), // IID_ICredentialProviderCredential
+            QITABENT(CYkCredential, ICredentialProviderCredential), // IID_ICredentialProviderCredential
             {0},
         };
         return QISearch(this, qit, riid, ppv);
@@ -87,9 +87,9 @@ class CSampleCredential : public ICredentialProviderCredential
                        __in const FIELD_STATE_PAIR* rgfsp,
                        __in ICredentialProviderCredential *pWrappedCredential,
                        __in DWORD dwWrappedDescriptorCount);
-    CSampleCredential();
+    CYkCredential();
 
-    virtual ~CSampleCredential();
+    virtual ~CYkCredential();
 
   private:
     BOOL                                  _IsFieldInWrappedCredential(__in DWORD dwFieldID);

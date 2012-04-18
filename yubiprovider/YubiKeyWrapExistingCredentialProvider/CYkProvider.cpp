@@ -6,7 +6,7 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //
-// CSampleProvider implements ICredentialProvider, which is the main
+// CYkProvider implements ICredentialProvider, which is the main
 // interface that logonUI uses to decide which tiles to display.
 // In this sample, we are wrapping the default password provider with
 // an extra small text and combobox. We pass nearly all requests to the
@@ -15,13 +15,13 @@
 // unique provider, so they never know we're wrapping another provider.
 
 #include <credentialprovider.h>
-#include "CSampleProvider.h"
-#include "CSampleCredential.h"
+#include "CYkProvider.h"
+#include "CYkCredential.h"
 #include "guid.h"
 
-// CSampleProvider ////////////////////////////////////////////////////////
+// CYkProvider ////////////////////////////////////////////////////////
 
-CSampleProvider::CSampleProvider():
+CYkProvider::CYkProvider():
     _cRef(1)
 {
     DllAddRef();
@@ -33,7 +33,7 @@ CSampleProvider::CSampleProvider():
     _dwWrappedDescriptorCount = 0;
 }
 
-CSampleProvider::~CSampleProvider()
+CYkProvider::~CYkProvider()
 {
     _CleanUpAllCredentials();
     
@@ -46,7 +46,7 @@ CSampleProvider::~CSampleProvider()
 }
 
 // Cleans up all credentials, including the memory used to allocate the array.
-void CSampleProvider::_CleanUpAllCredentials()
+void CYkProvider::_CleanUpAllCredentials()
 {
     // Iterate and clean up the array, if it exists.
     if (_rgpCredentials != NULL)
@@ -67,7 +67,7 @@ void CSampleProvider::_CleanUpAllCredentials()
 // Ordinarily we would look at the CPUS and decide whether or not we support this scenario.
 // However, in this scenario we're going to create our internal provider and let it answer
 // questions like this for us.
-HRESULT CSampleProvider::SetUsageScenario(
+HRESULT CYkProvider::SetUsageScenario(
     __in CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus,
     __in DWORD dwFlags
     )
@@ -101,7 +101,7 @@ HRESULT CSampleProvider::SetUsageScenario(
 }
 
 // We pass this along to the wrapped provider.
-HRESULT CSampleProvider::SetSerialization(
+HRESULT CYkProvider::SetSerialization(
     __in const CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION* pcpcs
     )
 {
@@ -116,7 +116,7 @@ HRESULT CSampleProvider::SetSerialization(
 }
 
 // Called by LogonUI to give you a callback. We pass this along to the wrapped provider.
-HRESULT CSampleProvider::Advise(
+HRESULT CYkProvider::Advise(
     __in ICredentialProviderEvents* pcpe,
     __in UINT_PTR upAdviseContext
     )
@@ -131,7 +131,7 @@ HRESULT CSampleProvider::Advise(
 
 // Called by LogonUI when the ICredentialProviderEvents callback is no longer valid. 
 // We pass this along to the wrapped provider.
-HRESULT CSampleProvider::UnAdvise()
+HRESULT CYkProvider::UnAdvise()
 {
     HRESULT hr = E_UNEXPECTED;
     if (_pWrappedProvider != NULL)
@@ -148,7 +148,7 @@ HRESULT CSampleProvider::UnAdvise()
 // scenario you must include them all in this count and then hide/show them as desired 
 // using the field descriptors. We pass this along to the wrapped provider and then append
 // our own credential count.
-HRESULT CSampleProvider::GetFieldDescriptorCount(
+HRESULT CYkProvider::GetFieldDescriptorCount(
     __out DWORD* pdwCount
     )
 {
@@ -170,7 +170,7 @@ HRESULT CSampleProvider::GetFieldDescriptorCount(
 
 // Gets the field descriptor for a particular field. If this descriptor refers to one owned
 // by our wrapped provider, we'll pass it along. Otherwise we provide our own.
-HRESULT CSampleProvider::GetFieldDescriptorAt(
+HRESULT CYkProvider::GetFieldDescriptorAt(
     __in DWORD dwIndex, 
     __deref_out CREDENTIAL_PROVIDER_FIELD_DESCRIPTOR** ppcpfd
     )
@@ -223,7 +223,7 @@ HRESULT CSampleProvider::GetFieldDescriptorAt(
 // for authentication without showing any further UI.
 // While we're here, we'll create credentials to wrap each of the credentials created by
 // our wrapped provider. The key is to make everything transparent to the owner.
-HRESULT CSampleProvider::GetCredentialCount(
+HRESULT CYkProvider::GetCredentialCount(
     __out DWORD* pdwCount,
     __out_range(<,*pdwCount) DWORD* pdwDefault,
     __out BOOL* pbAutoLogonWithDefault
@@ -257,7 +257,7 @@ HRESULT CSampleProvider::GetCredentialCount(
             if (SUCCEEDED(hr))
             {
                 // Create an array of credentials for use.
-                _rgpCredentials = new CSampleCredential*[_dwCredentialCount];
+                _rgpCredentials = new CYkCredential*[_dwCredentialCount];
                 if (_rgpCredentials != NULL)
                 {
                     // Iterate each credential and make a wrapper.
@@ -265,7 +265,7 @@ HRESULT CSampleProvider::GetCredentialCount(
                     {
 						
                         // Allocate memory for the new credential.
-                        _rgpCredentials[lcv] = new CSampleCredential();
+                        _rgpCredentials[lcv] = new CYkCredential();
                         if (_rgpCredentials[lcv] != NULL)
                         {
                             ICredentialProviderCredential *pCredential;
@@ -334,7 +334,7 @@ HRESULT CSampleProvider::GetCredentialCount(
 
 // Returns the credential at the index specified by dwIndex. This function is called by 
 // logonUI to enumerate the tiles.
-HRESULT CSampleProvider::GetCredentialAt(
+HRESULT CYkProvider::GetCredentialAt(
     __in DWORD dwIndex, 
     __in ICredentialProviderCredential** ppcpc
     )
@@ -362,7 +362,7 @@ HRESULT CSample_CreateInstance(__in REFIID riid, __deref_out void** ppv)
 {
     HRESULT hr;
 
-    CSampleProvider* pProvider = new CSampleProvider();
+    CYkProvider* pProvider = new CYkProvider();
 
     if (pProvider)
     {
