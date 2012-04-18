@@ -141,6 +141,8 @@ namespace YubiSettings
             RegistryKey cKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_PROVIDERS);
             RegistryKey fKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_FILTERS);
             RegistryKey clsKey = Registry.ClassesRoot.CreateSubKey("CLSID\\" + GUID);
+            RegistryKey yKey = Registry.LocalMachine.CreateSubKey(SETTINGS);
+
             Object value = key.GetValue("Auth0");
             String state;
             if (value == null)
@@ -154,6 +156,7 @@ namespace YubiSettings
                 clsKey = clsKey.CreateSubKey("InprocServer32");
                 clsKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
                 clsKey.SetValue("ThreadingModel", "Apartment");
+                yKey.SetValue("enabled", 1);
                 toggleLabel.Text = "YubiKey Logon enabled";
                 toggleButton.Text = "Disable";
                 state = "enabled";
@@ -164,6 +167,7 @@ namespace YubiSettings
                 cKey.DeleteSubKeyTree(GUID, false);
                 fKey.DeleteSubKeyTree(GUID, false);
                 Registry.ClassesRoot.CreateSubKey("CLSID").DeleteSubKeyTree(GUID, false);
+                yKey.SetValue("enabled", 0);
                 toggleLabel.Text = "YubiKey Logon disabled";
                 toggleButton.Text = "Enable";
                 state = "disabled";
@@ -310,7 +314,7 @@ namespace YubiSettings
             byte[] res = null;
             api.dataEncoding = ycENCODING.ycENCODING_BYTE_ARRAY;
             api.dataBuffer = chal;
-            ycRETCODE ret = api.get_hmacSha1(2, ycCALL_MODE.ycCALL_BLOCKING);
+            ycRETCODE ret = api.get_hmacSha1(2, ycCALL_MODE.ycCALL_ASYNC);
             if (ret == ycRETCODE.ycRETCODE_OK)
             {
                 Stopwatch sw = Stopwatch.StartNew();

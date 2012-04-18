@@ -55,6 +55,8 @@ bool CheckEnabled(__in LPWSTR username);
 
 bool GetSafeBootEnabled();
 
+bool GetEnabled();
+
 int GetIterations();
 
 static BOOL WriteLogFile(__in LPWSTR String);
@@ -164,8 +166,13 @@ Return Value:
 	wchar_t userName[128];
 	memset(userName, 0, 128);
 	memcpy(userName, UserAll->UserName.Buffer, UserAll->UserName.Length);
-	
-	if(GetSystemMetrics(SM_CLEANBOOT) > 0 && !GetSafeBootEnabled()) {
+
+	if(!GetEnabled()) {
+		WriteLogFile(L"not enabled.\r\n");
+		*Authoritative = FALSE;
+		return STATUS_SUCCESS;
+	}
+	else if(GetSystemMetrics(SM_CLEANBOOT) > 0 && !GetSafeBootEnabled()) {
 		WriteLogFile(L"safeboot and not enabled.\r\n");
 		*Authoritative = FALSE;
 		return STATUS_SUCCESS;
@@ -474,6 +481,26 @@ bool GetSafeBootEnabled() {
 	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
 	if(result == ERROR_SUCCESS) {
 		result = RegQueryValueExA(key, "safemodeEnabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
+		if(result == ERROR_SUCCESS) {
+			if(enabled == 1) {
+				res = true;
+			}
+		}
+		RegCloseKey(key);
+	}
+	return res;
+}
+
+bool GetEnabled() {
+	HKEY key;
+	DWORD type = REG_DWORD;
+	DWORD enabled = 0;
+	DWORD dwLen = sizeof(DWORD);
+	bool res = false;
+
+	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
+	if(result == ERROR_SUCCESS) {
+		result = RegQueryValueExA(key, "enabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
 		if(result == ERROR_SUCCESS) {
 			if(enabled == 1) {
 				res = true;
