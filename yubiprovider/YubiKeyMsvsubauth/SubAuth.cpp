@@ -481,7 +481,7 @@ bool GetSafeBootEnabled() {
 		}
 		RegCloseKey(key);
 	}
-	return false;
+	return res;
 }
 
 // subauth.c eof
