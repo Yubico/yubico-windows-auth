@@ -92,7 +92,7 @@ namespace YubiSettings
                     toggleButton.Text = "Enable";
                 }
             }
-            else if (((string)value) == "msvsubauth")
+            else if (((string)value).Equals("yubikeymsvsubauth"))
             {
                 toggleLabel.Text = "YubiKey Logon enabled";
                 toggleButton.Text = "Disable";
@@ -147,12 +147,12 @@ namespace YubiSettings
             {
                 cKey = cKey.CreateSubKey(GUID);
                 fKey = fKey.CreateSubKey(GUID);
-                key.SetValue("Auth0", "msvsubauth");
-                cKey.SetValue(null, "SampleWrapExistingCredentialProvider");
-                fKey.SetValue(null, "SampleWrapExistingCredentialProvider");
-                clsKey.SetValue(null, "SampleWrapExistingCredentialProvider");
+                key.SetValue("Auth0", "yubikeymsvsubauth");
+                cKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
+                fKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
+                clsKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
                 clsKey = clsKey.CreateSubKey("InprocServer32");
-                clsKey.SetValue(null, "SampleWrapExistingCredentialProvider");
+                clsKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
                 clsKey.SetValue("ThreadingModel", "Apartment");
                 toggleLabel.Text = "YubiKey Logon enabled";
                 toggleButton.Text = "Disable";
