@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
   <Product Id='*' Name='YubiKey Logon' Language='1033' 
-    Version='1.0.0.2' Manufacturer='Yubico AB' UpgradeCode="26135f08-abb2-4d54-9e08-25cbc88feb76">
+    Version='1.0.0.4' Manufacturer='Yubico AB' UpgradeCode="26135f08-abb2-4d54-9e08-25cbc88feb76">
     <Package Description='YubiKey challenge-response authentication for windows'
       Comments='YubiKey challenge-response authentication for windows'
       Manufacturer='Yubico AB' InstallerVersion='200' Compressed='yes' />
@@ -50,7 +50,7 @@
                 WorkingDirectory="INSTALLLOCATION"/>
               <RemoveFolder Id="YubicoApplicationProgramsFolder" On="uninstall"/>
               <!-- version value here -->
-              <RegistryValue Root="HKLM" Key="Software\Yubico\auth" Name="installed" Type="string" Value="1.0.0.2" KeyPath="yes"/>
+              <RegistryValue Root="HKLM" Key="Software\Yubico\auth" Name="installed" Type="string" Value="1.0.0.4" KeyPath="yes"/>
             </Component>
           </Directory>
         </Directory>
