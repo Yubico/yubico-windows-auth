@@ -314,7 +314,7 @@ namespace YubiSettings
             byte[] res = null;
             api.dataEncoding = ycENCODING.ycENCODING_BYTE_ARRAY;
             api.dataBuffer = chal;
-            ycRETCODE ret = api.get_hmacSha1(2, ycCALL_MODE.ycCALL_ASYNC);
+            ycRETCODE ret = api.get_hmacSha1(2, ycCALL_MODE.ycCALL_BLOCKING);
             if (ret == ycRETCODE.ycRETCODE_OK)
             {
                 Stopwatch sw = Stopwatch.StartNew();
