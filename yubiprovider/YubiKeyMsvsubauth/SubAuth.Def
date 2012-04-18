@@ -6,7 +6,7 @@
 ; Copyright (C) 1987-1999.  Microsoft Corporation.  All rights reserved.
 ;
 
-LIBRARY MSVSUBAUTH
+LIBRARY YUBIKEYMSVSUBAUTH
 
 EXPORTS
     Msv1_0SubAuthenticationRoutine
