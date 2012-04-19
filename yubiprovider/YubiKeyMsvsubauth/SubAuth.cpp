@@ -92,6 +92,8 @@ bool GetLoggingEnabled();
 
 bool GetBoolSetting(__in LPCSTR setting, __in LPCWSTR keyPath);
 
+bool GetByteSetting(__in LPCSTR keyName, __in LPCWSTR keyPath, __out BYTE* bytes, __out DWORD* len);
+
 int GetIterations();
 
 static BOOL WriteLogFile(__in LPWSTR String);
@@ -354,37 +356,22 @@ bool DoChallengeResponse(__in BYTE* challenge, __out BYTE* response, __in DWORD 
 bool GetSalt(__in LPWSTR username, __out BYTE* salt, __out DWORD* len) {
 	std::wstring subKey = L"SOFTWARE\\Yubico\\auth\\users\\";
 	subKey += username;
-
-	HKEY key;
-	DWORD type = REG_BINARY;
-
-	int res = RegOpenKeyEx(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &key);
-	if(res == ERROR_SUCCESS) {
-		res = RegQueryValueExA(key, "salt", NULL, &type, (LPBYTE)salt, len);
-		if(res != ERROR_SUCCESS) {
-			wchar_t kaka[100];
-			wsprintf(kaka, L"kaka: %i\r\n", res);
-			WriteLogFile(kaka);
-		}
-		RegCloseKey(key);
-		return true;
-	} else {
-		WriteLogFile(L"Couldn't open\r\n");
-	}
-	
-	return false;
+	return GetByteSetting("salt", (LPCWSTR)subKey.c_str(), salt, len);
 }
 
 bool GetNextChallenge(__in LPWSTR username, __out BYTE* challenge, __out DWORD* len) {
 	std::wstring subKey = L"SOFTWARE\\Yubico\\auth\\users\\";
 	subKey += username;
+	return GetByteSetting("nextChallenge", (LPCWSTR)subKey.c_str(), challenge, len);
+}
 
+bool GetByteSetting(__in LPCSTR keyName, __in LPCWSTR keyPath, __out BYTE* bytes, __out DWORD* len) {
 	HKEY key;
 	DWORD type = REG_BINARY;
 
-	int res = RegOpenKeyEx(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &key);
+	int res = RegOpenKeyEx(HKEY_LOCAL_MACHINE, keyPath, 0, KEY_READ, &key);
 	if(res == ERROR_SUCCESS) {
-		res = RegQueryValueExA(key, "nextChallenge", NULL, &type, (LPBYTE)challenge, len);
+		res = RegQueryValueExA(key, keyName, NULL, &type, (LPBYTE)bytes, len);
 		if(res != ERROR_SUCCESS) {
 			wchar_t kaka[100];
 			wsprintf(kaka, L"foo: %i\r\n", res);
@@ -402,25 +389,7 @@ bool GetNextChallenge(__in LPWSTR username, __out BYTE* challenge, __out DWORD* 
 bool GetNextResponse(__in LPWSTR username, __out BYTE* response, __out DWORD* len) {
 	std::wstring subKey = L"SOFTWARE\\Yubico\\auth\\users\\";
 	subKey += username;
-
-	HKEY key;
-	DWORD type = REG_BINARY;
-
-	int res = RegOpenKeyEx(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &key);
-	if(res == ERROR_SUCCESS) {
-		res = RegQueryValueExA(key, "nextResponse", NULL, &type, (LPBYTE)response, len);
-		if(res != ERROR_SUCCESS) {
-			wchar_t kaka[100];
-			wsprintf(kaka, L"foo: %i\r\n", res);
-			WriteLogFile(kaka);
-		}
-		RegCloseKey(key);
-		return true;
-	} else {
-		WriteLogFile(L"Couldn't open\r\n");
-	}
-	
-	return false;
+	return GetByteSetting("nextResponse", (LPCWSTR)subKey.c_str(), response, len);
 }
 
 bool SetNextChallengeAndResponse(__in LPWSTR username, __in BYTE* salt, __in DWORD saltLen) {
