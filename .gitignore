@@ -5,3 +5,7 @@ obj/
 bin/
 Release/
 *.suo
+*.swp
+*.msi
+*.wixobj
+*.wixpdb
