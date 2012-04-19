@@ -90,13 +90,13 @@ bool GetEnabled();
 
 bool GetLoggingEnabled();
 
-bool GetBoolSetting(__in LPSTR setting);
+bool GetBoolSetting(__in LPCSTR setting, __in LPCWSTR keyPath);
 
 int GetIterations();
 
 static BOOL WriteLogFile(__in LPWSTR String);
 
-static LPWSTR settingsKey = L"SOFTWARE\\Yubico\\auth\\settings";
+static LPCWSTR settingsKey = L"SOFTWARE\\Yubico\\auth\\settings";
 
 NTSTATUS
 NTAPI
@@ -466,29 +466,7 @@ bool HashData(__inout BYTE* data, __inout DWORD* dataLen, __in BYTE* salt, __in 
 bool CheckEnabled(__in LPWSTR username) {
 	std::wstring subKey = L"SOFTWARE\\Yubico\\auth\\users\\";
 	subKey += username;
-
-	HKEY key;
-	DWORD type = REG_DWORD;
-	DWORD enabled = 0;
-	DWORD dwLen = sizeof(DWORD);
-
-	int res = RegOpenKeyEx(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &key);
-	if(res == ERROR_SUCCESS) {
-		res = RegQueryValueExA(key, "enabled", NULL, &type, (LPBYTE)&enabled, &dwLen);
-		if(res != ERROR_SUCCESS) {
-			wchar_t kaka[100];
-			wsprintf(kaka, L"foo: %i\r\n", res);
-			WriteLogFile(kaka);
-		}
-		RegCloseKey(key);
-		if(enabled == 1) {
-			return true;
-		}
-	} else {
-		WriteLogFile(L"Couldn't open\r\n");
-	}
-	
-	return false;
+	return GetBoolSetting("enabled", (LPCWSTR)(subKey.c_str()));
 }
 
 int GetIterations() {
@@ -511,26 +489,26 @@ int GetIterations() {
 }
 
 bool GetSafeBootEnabled() {
-	return GetBoolSetting("safemodeEnabled");
+	return GetBoolSetting("safemodeEnabled", settingsKey);
 }
 
 bool GetEnabled() {
-	return GetBoolSetting("enabled");
+	return GetBoolSetting("enabled", settingsKey);
 }
 
 bool GetLoggingEnabled() {
-	return GetBoolSetting("loggingEnabled");
+	return GetBoolSetting("loggingEnabled", settingsKey);
 
 }
 
-bool GetBoolSetting(__in LPSTR setting) {
+bool GetBoolSetting(__in LPCSTR setting, __in LPCWSTR keyPath) {
 	HKEY key;
 	DWORD type = REG_DWORD;
 	DWORD enabled = 0;
 	DWORD dwLen = sizeof(DWORD);
 	bool res = false;
 
-	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, settingsKey, 0, KEY_READ, &key);
+	int result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, keyPath, 0, KEY_READ, &key);
 	if(result == ERROR_SUCCESS) {
 		result = RegQueryValueExA(key, setting, NULL, &type, (LPBYTE)&enabled, &dwLen);
 		if(result == ERROR_SUCCESS) {
