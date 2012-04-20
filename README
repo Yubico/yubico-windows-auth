@@ -1,0 +1,38 @@
+YubiKey Logon for Windows
+
+This is software for doing local logon with YubiKey in
+challenge-response mode on Windows 7.
+
+The folder yubiprovider contains a simple credential provider and a
+subauthentication module where all the real work happens.
+
+The folder YubiSettings contains a c# application for setting up authentication
+for a user.
+
+The folder msi contains WiX templates for building msi for Win32 and x64 and a
+XML file for building a dotNetInstaller bootstrap package.
+
+
+Building
+--------
+
+To do a complete build of this software you will need:
+
+* Visual C++ Express 2010
+* Visual C# Express 2010
+* Windows Installer XML toolset (WiX)
+* DotNetInstaller
+
+1. Build the software for both Win32 and x64 (both c++ and c#).
+2. Go to the MSI folder and execute:
+   * candle YubiKeyLogon.wxs
+   * light YubiKeyLogon.wixobj
+   * candle YubiKeyLogon-x64.wxs
+   * light YubiKeyLogon-x64.wixobj
+3. Start the InstallerEditor from dotNetInstaller and open bootstrap.xml.
+4. Make sure the msi installers for YubiKeyLogon points at the msi files
+   created in step 2.
+5. Do create EXE from the menu.
+   * select the dotNetInstaller.exe for Template
+   * select the msi/yubico.bmp for Banner
+   * select bootstrap.manifest for Manifest
