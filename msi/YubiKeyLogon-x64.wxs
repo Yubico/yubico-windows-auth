@@ -33,10 +33,10 @@
       </Directory>
       <Directory Id="System64Folder">
         <Component Id="msvsubauth" Guid="c39d0350-c143-4e80-8b60-3f4864a07535" Win64="yes">
-          <File Id="yubikeymsvsubauth.dll" Source="..\yubiprovider\x64\Debug\YubiKeyMsvsubauth.dll" DiskId="1"/>
+          <File Id="yubikeymsvsubauth.dll" Source="..\yubiprovider\x64\Release\YubiKeyMsvsubauth.dll" DiskId="1"/>
         </Component>
         <Component Id="credential_provider" Guid="229f2b26-505e-48a5-946c-27a7291d8a81" Win64="yes">
-          <File Id="YubiKeyWrapExistingCredentialProvider.dll" Source="..\yubiprovider\x64\Debug\YubiKeyWrapExistingCredentialProvider.dll" DiskId="1"/>
+          <File Id="YubiKeyWrapExistingCredentialProvider.dll" Source="..\yubiprovider\x64\Release\YubiKeyWrapExistingCredentialProvider.dll" DiskId="1"/>
         </Component>
       </Directory>
       <Directory Id="ProgramMenuFolder">
