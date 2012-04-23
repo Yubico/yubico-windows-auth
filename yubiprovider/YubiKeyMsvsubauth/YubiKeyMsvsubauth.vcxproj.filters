@@ -21,14 +21,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ykdef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="YkLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="SubAuth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
