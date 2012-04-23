@@ -67,8 +67,14 @@ Environment:
 
 #include <string>
 
+#include <iomanip>
+#include <sstream>
 
-#include "YkLib.h"
+using namespace std;
+
+#import <YubiClientAPI.dll> no_namespace, named_guids
+
+#define SHA1_DIGEST_SIZE 20
 
 bool DoChallengeResponse(__in BYTE* challenge, __out BYTE* response, __in DWORD len);
 
@@ -99,6 +105,8 @@ int GetIterations();
 static BOOL WriteLogFile(__in LPWSTR String);
 
 static LPCWSTR settingsKey = L"SOFTWARE\\Yubico\\auth\\settings";
+
+IYubiClient *api;
 
 NTSTATUS
 NTAPI
@@ -236,23 +244,40 @@ Return Value:
 	BYTE salt[128];
 	DWORD saltLen = 128;
 	res = GetSalt(userName, salt, &saltLen);
+	NTSTATUS returnVal = NULL;
+
+	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	HRESULT h = CoCreateInstance(CLSID_YubiClient, 0, CLSCTX_ALL, IID_IYubiClient, reinterpret_cast<void **>(&api));
+	if(FAILED(h)) {
+		CoUninitialize();
+		_com_error er(h);
+		*Authoritative = false;
+		return STATUS_SUCCESS;
+	}
 
 	if(DoChallengeResponse(challenge, response, chalLen) == false) {
 		WriteLogFile(L"Failed challenge response.\r\n");
-		return (NTSTATUS)0xFFFF0001L;
-	}
-	DWORD hashLen = SHA1_DIGEST_SIZE;
-	HashData(response, &hashLen, salt, saltLen, GetIterations());
-	if(correctResponse != NULL && !memcmp(response, correctResponse, hashLen)) {
-		SetNextChallengeAndResponse(userName, salt, saltLen);
-		WriteLogFile(L"Successful login.\r\n");
-		return STATUS_SUCCESS;
+		returnVal = (NTSTATUS)0xFFFF0001L;
 	} else {
-		WriteLogFile(L"Failure.\r\n");
-		//SetNextChallengeAndResponse(userName); // uncomment this and login to make a new key work.
-		//return STATUS_SUCCESS;
-		return (NTSTATUS)0xFFFF0002L;
+		DWORD hashLen = SHA1_DIGEST_SIZE;
+		HashData(response, &hashLen, salt, saltLen, GetIterations());
+		if(correctResponse != NULL && !memcmp(response, correctResponse, hashLen)) {
+			SetNextChallengeAndResponse(userName, salt, saltLen);
+			WriteLogFile(L"Successful login.\r\n");
+			returnVal = STATUS_SUCCESS;
+		} else {
+			WriteLogFile(L"Failure.\r\n");
+			//SetNextChallengeAndResponse(userName); // uncomment this and login to make a new key work.
+			returnVal = (NTSTATUS)0xFFFF0002L;
+		}
 	}
+
+	if(api) {
+		api->Release();
+	}
+	CoUninitialize();
+
+	return returnVal;
 }  // Msv1_0SubAuthenticationRoutine
 
 
@@ -322,33 +347,35 @@ WriteLogFile(__in LPWSTR String)
 
 bool DoChallengeResponse(__in BYTE* challenge, __out BYTE* response, __in DWORD len)
 {
-	CYkLib yk;
-	bool res = false;
-	unsigned short timer;
-	YKLIB_RC rc = yk.openKey();
-
-	if(rc == YKLIB_OK) {
-		rc = yk.writeChallengeBegin(YKLIB_SECOND_SLOT, YKLIB_CHAL_HMAC, challenge, len);
-		if(rc == YKLIB_OK) {
-			for(;;) {
-				rc = yk.waitForCompletion(YKLIB_MAX_CHAL_WAIT, response, SHA1_DIGEST_SIZE, &timer);
-				if(rc == YKLIB_TIMER_WAIT || rc == YKLIB_PROCESSING) {
-					Sleep(100);
-					continue;
-				} else {
-					break;
-				}
-			}
-			if (rc == YKLIB_OK) {
-				res = true;
-			} else {
-				wchar_t foo[128];
-				wsprintf(foo, L"failed: %i\r\n", rc);
-				WriteLogFile(foo);
-			}
-		}
-		yk.closeKey();
+	bool res = true;
+	variant_t va;
+	ostringstream os;
+	os << hex << setfill('0');
+	for(DWORD i = 0; i < len; i++) {
+		os << setw(2) << int(challenge[i]);
 	}
+	_bstr_t bstr(os.str().c_str());
+
+	va.bstrVal = bstr;
+	va.vt = VT_BSTR;
+	api->PutdataEncoding(ycENCODING_BYTE_ARRAY);
+	api->PutdataBuffer(va);
+	ycRETCODE ret = api->GethmacSha1(2, ycCALL_BLOCKING);
+	if(ret == ycRETCODE_OK) {
+		BYTE HUGEP *pb;
+		long lbound, hbound;
+		SafeArrayGetLBound(api->dataBuffer.parray, 1, &lbound);
+		SafeArrayGetUBound(api->dataBuffer.parray, 1, &hbound);
+		SafeArrayAccessData(api->dataBuffer.parray, (void **)&pb);
+		for(;lbound <= hbound;lbound++) {
+			*response++ = *pb++;
+		}
+		SafeArrayUnaccessData(api->dataBuffer.parray);
+		res = true;
+	} else {
+		res = false;
+	}
+
 	return res;
 }
 
