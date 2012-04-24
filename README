@@ -20,6 +20,7 @@ To do a complete build of this software you will need:
 
 * Visual C++ Express 2010
 * Visual C# Express 2010
+* Windows SDK version 7.1
 * Windows Installer XML toolset (WiX)
 * DotNetInstaller
 
