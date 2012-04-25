@@ -321,12 +321,6 @@ HRESULT CYkProvider::GetCredentialCount(
                                             _rgpCredentials[lcv] = NULL;
                                         }
                                     }
-								} else {
-									PWSTR user = L"";
-									_rgpCredentials[lcv]->GetStringValue(0, &user);
-									//if(StrCmpW(user, L"foo") == 0) {
-										*pdwDefault = 1;
-									//}
 								}
                                 pCredential->Release();
                             } // (End if _pWrappedProvider->GetCredentialAt succeeded.)
