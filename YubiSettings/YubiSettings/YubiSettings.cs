@@ -273,7 +273,7 @@ namespace YubiSettings
             }
             else
             {
-                MessageBox.Show("Failed challenge-response",
+                MessageBox.Show("Failed challenge-response. Is the YubiKey configured for HMAC-SHA1 challenge-response in slot 2?",
                     "Failed",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
