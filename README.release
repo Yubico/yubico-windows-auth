@@ -1,0 +1,21 @@
+Making a release:
+
+* Bump versions in bootstrap.xml and the .wxs files.
+
+* Build all three parts, both x64 and win32 in release mode.
+
+* Sign all 6 binaries (4 dlls and 2 exe)
+  linux: signcode -spc /dev/shm/foo/yubico.spc -v /dev/shm/foo/privatekey.pvk -a sha1 -$ commercial -n 'Yubico Windows Logon' -i 'http://www.yubico.com' -t http://timestamp.verisign.com/scripts/timstamp.dll YubiKeyLogon.exe)
+  windows: signtool sign /du http://www.yubico.com /d "Yubico Wi ndows Logon" /t http://timestamp.verisign.com/scripts/timstamp.dll /f e:\keys\yubico.pfx YubiKeyLogon-x64.msi
+
+* Build the msis:
+  candle msi/YubiKeyLogon.wxs
+  candle msi/YubiKeyLogon-x64.wxs
+  light msi/YubiKeyLogon.wixobj
+  light msi/YubiKeyLogon-x64.wixobj
+
+* Sign the two msis
+
+* Start dotNetInstaller and open bootstrap.xml, hit "Create exe..."
+
+* Sign the exported exe
