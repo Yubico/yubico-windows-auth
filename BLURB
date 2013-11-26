@@ -1,0 +1,7 @@
+Author: Yubico
+Basename: yubico-windows-auth
+Homepage: https://github.com/Yubico/yubico-windows-auth/
+License: BSD-2-Clause
+Name: yubico-windows-auth
+Project: yubico-windows-auth
+Summary: YubiKey Logon for windows
