@@ -26,14 +26,17 @@ To do a complete build of this software you will need:
 
 1. Build the software for both Win32 and x64 (both c++ and c#).
 2. Go to the MSI folder and execute:
-   * candle YubiKeyLogon.wxs
-   * light YubiKeyLogon.wixobj
-   * candle YubiKeyLogon-x64.wxs
-   * light YubiKeyLogon-x64.wixobj
+
+ - candle YubiKeyLogon.wxs
+ - light YubiKeyLogon.wixobj
+ - candle YubiKeyLogon-x64.wxs
+ - light YubiKeyLogon-x64.wixobj
+
 3. Start the InstallerEditor from dotNetInstaller and open bootstrap.xml.
 4. Make sure the msi installers for YubiKeyLogon points at the msi files
    created in step 2.
 5. Do create EXE from the menu.
-   * select the dotNetInstaller.exe for Template
-   * select the msi/yubico.bmp for Banner
-   * select bootstrap.manifest for Manifest
+
+ - select the dotNetInstaller.exe for Template
+ - select the msi/yubico.bmp for Banner
+ - select bootstrap.manifest for Manifest
