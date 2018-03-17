@@ -46,13 +46,16 @@ namespace YubiSettings
 {
     public partial class YubiSettings : Form
     {
+        private static String GUID = "{0f33b914-4f18-4824-8880-29bbe2e05179}";
+        private static String DEFAULT_PASSWORD_PROVIDER_GUID = "{60b78e88-ead8-445c-9cfd-0b87f74ea6cd}";
         private static String MSV1_0 = "SYSTEM\\CurrentControlSet\\Control\\LSA\\MSV1_0";
         private static String SETTINGS = "SOFTWARE\\Yubico\\auth\\settings";
         private static String SAFEMODE = "safemodeEnabled";
         private static String USERS = "SOFTWARE\\Yubico\\auth\\users\\";
         private static String CREDENTIAL_PROVIDERS = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Providers\\";
         private static String CREDENTIAL_FILTERS = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Provider Filters\\";
-        private static String GUID = "{0f33b914-4f18-4824-8880-29bbe2e05179}";
+        private static String CREDENTIAL_DEFAULT = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Providers\\" + DEFAULT_PASSWORD_PROVIDER_GUID;
+
         private static int DEFAULT_ITERATIONS = 10000;
 
         YubiClient api;
@@ -157,6 +160,7 @@ namespace YubiSettings
                 clsKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
                 clsKey.SetValue("ThreadingModel", "Apartment");
                 yKey.SetValue("enabled", 1);
+                Registry.SetValue(CREDENTIAL_DEFAULT, "Disabled", 1, RegistryValueKind.DWord);
                 toggleLabel.Text = "YubiKey Logon enabled";
                 toggleButton.Text = "Disable";
                 state = "enabled";
@@ -167,6 +171,7 @@ namespace YubiSettings
                 cKey.DeleteSubKeyTree(GUID, false);
                 fKey.DeleteSubKeyTree(GUID, false);
                 Registry.ClassesRoot.CreateSubKey("CLSID").DeleteSubKeyTree(GUID, false);
+                Registry.SetValue(CREDENTIAL_DEFAULT, "Disabled", 0, RegistryValueKind.DWord);
                 yKey.SetValue("enabled", 0);
                 toggleLabel.Text = "YubiKey Logon disabled";
                 toggleButton.Text = "Enable";
