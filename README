@@ -1,5 +1,7 @@
 YubiKey Logon for Windows
 
+NOTE: This project is deprecated and is no longer being maintained.
+
 This is software for doing local logon with YubiKey in
 challenge-response mode on Windows 7.
 
