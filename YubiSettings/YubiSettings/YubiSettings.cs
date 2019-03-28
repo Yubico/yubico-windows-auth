@@ -53,6 +53,8 @@ namespace YubiSettings
         private static String CREDENTIAL_PROVIDERS = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Providers\\";
         private static String CREDENTIAL_FILTERS = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Provider Filters\\";
         private static String GUID = "{0f33b914-4f18-4824-8880-29bbe2e05179}";
+        private static String WIN7_PASSWORD_PROVIDER = "{6f45dc1e-5384-457a-bc13-2cd81b0d28ed}";
+        private static String PASSWORD_PROVIDER = "{60b78e88-ead8-445c-9cfd-0b87f74ea6cd}";
         private static int DEFAULT_ITERATIONS = 10000;
 
         YubiClient api;
@@ -142,6 +144,14 @@ namespace YubiSettings
             RegistryKey fKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_FILTERS);
             RegistryKey clsKey = Registry.ClassesRoot.CreateSubKey("CLSID\\" + GUID);
             RegistryKey yKey = Registry.LocalMachine.CreateSubKey(SETTINGS);
+            RegistryKey passwordProviderKey;
+
+            if (Environment.OSVersion.Version.Major == 6 & Environment.OSVersion.Version.Minor == 1) {
+                // If windows 7
+                passwordProviderKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_FILTERS + WIN7_PASSWORD_PROVIDER);
+            } else {
+                passwordProviderKey = Registry.LocalMachine.CreateSubKey(CREDENTIAL_FILTERS + PASSWORD_PROVIDER);
+            }                  
 
             Object value = key.GetValue("Auth0");
             String state;
@@ -157,6 +167,7 @@ namespace YubiSettings
                 clsKey.SetValue(null, "YubiKeyWrapExistingCredentialProvider");
                 clsKey.SetValue("ThreadingModel", "Apartment");
                 yKey.SetValue("enabled", 1);
+                passwordProviderKey.SetValue("Disabled", 1, RegistryValueKind.DWord);
                 toggleLabel.Text = "YubiKey Logon enabled";
                 toggleButton.Text = "Disable";
                 state = "enabled";
@@ -167,6 +178,7 @@ namespace YubiSettings
                 cKey.DeleteSubKeyTree(GUID, false);
                 fKey.DeleteSubKeyTree(GUID, false);
                 Registry.ClassesRoot.CreateSubKey("CLSID").DeleteSubKeyTree(GUID, false);
+                passwordProviderKey.SetValue("Disabled", 0, RegistryValueKind.DWord);
                 yKey.SetValue("enabled", 0);
                 toggleLabel.Text = "YubiKey Logon disabled";
                 toggleButton.Text = "Enable";
